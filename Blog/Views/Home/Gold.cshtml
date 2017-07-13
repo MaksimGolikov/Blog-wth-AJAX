@@ -1,0 +1,24 @@
+﻿@using System.Drawing;
+@using Blog.Models;
+
+@model   Tuple<string,ForMasterPage>
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+    <h2>@Model.Item1  You are gold user</h2>
+</section>

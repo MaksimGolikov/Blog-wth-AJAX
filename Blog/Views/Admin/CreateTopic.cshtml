@@ -1,0 +1,75 @@
+﻿@using Blog.Models;
+@model Tuple<Topic, ForMasterPage>
+@{
+    Layout = "~/Views/MainPage.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+
+    @Html.Partial("Admin"); 
+
+
+    <div class="docs-content">
+        <h2>New topic</h2>
+
+        <form method="post" action="~/Home/Create" onclick=" validate(this.form)">
+            <p><b>Name topic</b></p>
+            <p><input type="text" name="nameTopic" /></p>
+            <p><b>Text topic</b></p>
+            <p><textarea rows="10" cols="100" name="ContextTopic"></textarea></p>
+            <p><input type="submit" value="Create"></p>
+        </form>
+    </div>
+</section>
+
+
+
+    <script>
+
+
+        function validate(form) {
+            var elems = form.elements;
+
+            resetError(elems.nameTopic.parentNode);
+            if (!elems.nameTopic.value) {
+                showError(elems.nameTopic.parentNode, ' Enter name');
+            }
+
+            resetError(elems.textTopic.parentNode);
+            if (!elems.textTopic.value) {
+                showError(elems.textTopic.parentNode, ' Enter text ');
+            }
+        }
+
+
+        function showError(container, errorMessage) {
+            container.className = 'error';
+            var msgElem = document.createElement('span');
+            msgElem.className = "error-message";
+            msgElem.innerHTML = errorMessage;
+            container.appendChild(msgElem);
+        }
+
+        function resetError(container) {
+            container.className = '';
+            if (container.lastChild.className == "error-message") {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+
+    </script>

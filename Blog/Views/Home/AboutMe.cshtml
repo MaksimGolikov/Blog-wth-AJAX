@@ -1,0 +1,50 @@
+﻿@using System.Drawing;
+@using Blog.Models;
+
+@model  ForMasterPage
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu",Model);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+    <div class="docs-content">
+        <h2> Hi, my name is Maksim, but friends call me Max </h2>
+        <table border="0">
+            <tr>
+                <td>
+                    <img src="~/Content/Image/I.png" />
+                </td>
+                <td>
+                    <p>
+                        I am a creator of this blog<br /><br />
+                        My skills:<br />
+                        - Programming PC on C#, C++<br />
+                        - Programming microcontrollers on C, Asembler<br />
+                        - Programong WEB page using ASP<br />
+                    </p>
+                    <h2>A litle bit about me </h2>
+                    <p>
+                        I was born in 1995 September 15 (now I am 21 years old). I`m a very fany and smart boy.<br />
+                        I like dansing (modern dance like contemporary, modern jazz, house e.t.c). I have a hobby - cooking.<br />
+                        <br />
+                        If you want to connect with me, you can write me on my e-mail: golikov.mo@gmail.com<br />
+                        or find me on facebook <a href="https://www.facebook.com/profile.php?id=100006500583000">My facebook</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>

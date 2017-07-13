@@ -1,0 +1,71 @@
+﻿@using System.Drawing;
+@using Blog.Models;
+
+@model  Tuple<User,ForMasterPage>
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+    <div class="docs-content">
+        <form method="post" action="~/Home/ChangeProfile" onsubmit="doCheck(this.form)">
+          
+            <table border="0">
+                <tr>
+                    <td>
+                        <h4 class="toplinks">Data about you account</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Name </h4>
+                        <input name="FirstName" type="text" value="@Model.Item1.FirstName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Second name </h4>
+                        <input name="SecondName" type="text" value="@Model.Item1.SecondName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Login </h4>
+                        <input name="Login" type="text" value="@Model.Item1.Login" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Password </h4>
+                        <input name="Password" type="password" value="@Model.Item1.Password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Your are @Model.Item1.Role</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="hidden" value="@Model.Item1.Role" name="Role" />
+                        <input type="hidden" value="@Model.Item1.Id" name="Id" />
+                        <input type="submit" value="Change" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</section>

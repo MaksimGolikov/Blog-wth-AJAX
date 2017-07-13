@@ -1,0 +1,51 @@
+﻿@using System.Drawing;
+@using Blog.Models;
+@using Blog.Models.AuthModel;
+
+@model  Tuple<Login,ForMasterPage>
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+
+    <h2>Log in</h2>
+    <div class="docs-content">
+        <form method="post" action="~/Home/Login">
+
+            @Html.AntiForgeryToken()                       
+                <div>                 
+                    <div>
+                      <p>Login</p>
+                      <input type="text" name="LoginName" />
+                    </div>
+                </div>
+                <div>
+                   <p>Password</p>
+                    <div>
+                        <input type="password" name="Password"/>                           
+                </div>
+
+                <div>
+                    <input type="hidden" name="Role" value="guest">
+                    <input type="submit" value="Log in" />
+                </div>
+            </div>
+         </form>
+   </div>
+
+           
+</section>

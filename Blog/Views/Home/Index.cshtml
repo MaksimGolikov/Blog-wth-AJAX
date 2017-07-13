@@ -1,0 +1,41 @@
+﻿@using Blog.Models
+@using System.Drawing;
+@model Tuple<IEnumerable<Topic>,ForMasterPage>
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu",Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+    <div class="container">
+        <ul class="docs-nav" id="menu-left">
+            <li><strong>Темы</strong></li>
+            @if (Model.Item1 != null)
+            {
+                foreach (var item in Model.Item1)
+                {
+                    <li><a href="~/Home/ShowSelected/@item.Id">@item.NameTopic</a></li>
+                }
+            }
+
+            <li class="separator"></li>
+        </ul>
+
+        <div class="docs-content">
+            <h3> It's fashionable to be smart </h3>
+            <img src="~/Content/Image/start.jpg" />
+        </div>
+    </div>
+</section>

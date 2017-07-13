@@ -1,0 +1,149 @@
+﻿@using System.Drawing;
+@using Blog.Models;
+@using Blog.Models.AuthModel;
+
+@model  Tuple<Registred, ForMasterPage>
+
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+
+    
+    <div class="docs-content">
+        <form method="post" action="~/Home/Registration" onsubmit=" doCheck(this.form)">
+
+            @Html.AntiForgeryToken()
+            <table border="0">
+                <tr>
+                    <td>
+                        <h4 class="toplinks">Filling fild for create account</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Name </h4>
+                        <input name="FirstName" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Second name </h4>
+                        <input name="SecondName" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Login </h4>
+                        <input name="Login" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Password </h4>
+                        <input name="Password" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Confirm password </h4>
+                        <input name="confirmPass" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Добавить" id="login" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+
+
+
+
+    <script>
+        function doCheck(form) {
+
+            var elems = form.elements;
+
+            resetError(elems.FirstName.parentNode);
+            if (!elems.FirstName.value) {
+                showError(elems.FirstName.parentNode, ' Enter firs name');
+            }
+            resetError(elems.Secname.parentNode);
+            if (!elems.Secname.value) {
+                showError(elems.Secname.parentNode, ' Enter second name');
+            }
+
+            resetError(elems.log.parentNode);
+            if (!elems.log.value) {
+                showError(elems.log.parentNode, ' Enter login');
+            }
+
+            resetError(elems.password.parentNode);
+            if (!elems.password.value) {
+                showError(elems.password.parentNode, ' Enter password ');
+            }
+            if (elems.pass.value != elems.confirmPass.value) {
+                showError(elems.confirmPass.parentNode, ' Password isn`t equals');
+            }
+        }
+
+        function validate(form) {
+            var elems = form.elements;
+
+            resetError(elems.login.parentNode);
+            if (!elems.login.value) {
+                showError(elems.login.parentNode, ' Enter login');
+            }
+
+            resetError(elems.password.parentNode);
+            if (!elems.password.value) {
+                showError(elems.password.parentNode, ' Enter password ');
+            }
+
+        }
+
+        function showError(container, errorMessage) {
+            container.className = 'error';
+            var msgElem = document.createElement('span');
+            msgElem.className = "error-message";
+            msgElem.innerHTML = errorMessage;
+            container.appendChild(msgElem);
+        }
+
+        function resetError(container) {
+            container.className = '';
+            if (container.lastChild.className == "error-message") {
+                container.removeChild(container.lastChild);
+            }
+        }
+
+
+ </script>
+
+ </section>
+
+
+
+
+
+
+   

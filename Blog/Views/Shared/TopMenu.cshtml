@@ -1,0 +1,35 @@
+﻿@using Blog.Models
+@model ForMasterPage
+
+
+<ul class="toplinks">
+    <li><a href="~/Home/Me">About me</a></li>
+    <li><a href="~/Home/Index">Blog</a></li>
+    @if (!Model.UserAuthorisaed)
+    {
+        <li><a href="~/Home/Register">Registration</a></li>
+        <li><a href="~/Home/Login">Login</a></li>
+    }
+    @if (Model.UserAuthorisaed)
+    {
+        <li><a href="~/Home/LogOff">Log Off </a></li>
+        <li><a href="~/Home/UserProfile">Your profile </a></li>
+    }
+    @if (Model.UserRole == "admin")
+    {
+        <li><a href="~/Home/AdminIndex"> To admin page </a></li>
+    } 
+    @if(Model.UserRole == "gold")
+    {
+        <li><a href="~/Home/Gold"> To GOLD page </a></li>
+    }  
+    @if(!Model.UserAuthorisaed){
+        <li><a href="#"> @Model.UserName </a> </li>  
+    } 
+    @if(Model.UserAuthorisaed){
+        <li><a href="~/Home/UserProfile"> @Model.UserName </a> </li>  
+    }  
+            
+            
+</ul>
+     

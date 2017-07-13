@@ -1,0 +1,59 @@
+﻿@using Blog.Models;
+@model Tuple<IEnumerable<User>,ForMasterPage>
+@{
+    Layout = "~/Views/MainPage.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+    @Html.Partial("Admin");
+
+
+    <div class="docs-content">
+        @foreach(var item in Model.Item1)
+        {
+            <h4>@item.FirstName  @item.SecondName</h4>
+            <p>Current role is:   @item.Role</p>
+            <table>
+                <tr>
+                    <td>
+                        <form action="~/Home/ChangeUserRole">
+                            <input type="hidden" value="@item.Id" name="Id"/>
+                            <input type="hidden" value="admin" name="Role" />
+                            <input type="submit" value="Set admin role">
+                        </form>                                        
+                    </td>
+                    <td>                       
+                        <form action="~/Home/ChangeUserRole">
+                            <input type="hidden" value="@item.Id" name="Id" />
+                            <input type="hidden" value="user" name="Role" />
+                            <input type="submit" value="Set user role">
+                        </form>              
+                    </td>
+                    <td>                        
+                        <form action="~/Home/ChangeUserRole">
+                            <input type="hidden" value="@item.Id" name="Id" />
+                            <input type="hidden" value="gold" name="Role" />
+                            <input type="submit" value="Set gold role">
+                        </form>              
+                    </td>
+                </tr>
+            </table>
+        }
+    </div>
+
+
+</section>

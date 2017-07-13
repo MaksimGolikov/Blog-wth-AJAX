@@ -1,0 +1,77 @@
+﻿@using Blog.Models;
+@model Tuple<IEnumerable<Topic>, ForMasterPage>
+@{
+    Layout = "~/Views/MainPage.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+
+    @Html.Partial("Admin"); 
+
+
+    <div class="docs-content">
+        <table>
+            <tr>
+                <th>
+                    <h4>Select topic for edit</h4>
+                </th>
+            </tr>
+            @foreach (var item in Model.Item1)
+            {
+                <tr>
+                    <th>
+                        <a  id="@item.Id-link">Edit @item.NameTopic</a>
+                        <script>
+                            $(function () {
+                                $("#@item.Id-link").click(function () {
+                                    $.ajax({
+                                        url: "/api/ajax",
+                                        type: "GET",
+                                        data: {
+                                            Id: "@item.Id"                                           
+                                        },
+                                        success: function (data) {
+                                            document.getElementById('nameTopic').value = data.nameTopic;
+                                            document.getElementById('ContextTopic').value = data.ContextTopic;
+                                            document.getElementById('Id').value = data.Id;                                            
+                                        }
+                                    });
+                                });           
+                            });
+                          
+                        </script>      
+                    </th>
+                </tr>    
+            }
+        </table>
+
+        <form method="post" action="~/Home/Edit">
+            <p><b>Name topic</b></p>
+           
+                <p><input type="text" name="nameTopic" id="nameTopic"  /></p>
+                <input type="hidden" name="Id" id="Id"   />           
+            
+            <p><b>Text topic</b></p>
+          
+                <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic"></textarea></p>
+           
+            <p><input type="submit" value="Edit"></p>
+        </form>
+    </div>
+
+</section>
+

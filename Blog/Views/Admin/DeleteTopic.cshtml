@@ -1,0 +1,32 @@
+﻿@using Blog.Models;
+@model Tuple<IEnumerable<Topic>, ForMasterPage>
+@{
+    Layout = "~/Views/MainPage.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+    @Html.Partial("Admin"); 
+
+
+
+    <div class="docs-content">
+        @foreach (var item in Model.Item1)
+        {
+            <a href="~/Home/Del/@item.Id">@item.NameTopic</a> <br />
+        }
+    </div>
+</section>
