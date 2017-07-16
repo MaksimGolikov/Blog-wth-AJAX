@@ -1,5 +1,5 @@
 ﻿@using Blog.Models;
-@model Tuple<Topic, ForMasterPage>
+@model Tuple<Topic,ForMasterPage>
 @{
     Layout = "~/Views/MainPage.cshtml";
 }
@@ -26,12 +26,29 @@
     <div class="docs-content">
         <h2>New topic</h2>
 
-        <form method="post" action="~/Home/Create" onclick=" validate(this.form)">
+        <form method="post" action="~/Home/Create" onsubmit="return validate(this)">
             <p><b>Name topic</b></p>
-            <p><input type="text" name="nameTopic" /></p>
-            <p><b>Text topic</b></p>
-            <p><textarea rows="10" cols="100" name="ContextTopic"></textarea></p>
+            <p><input type="text" name="NameTopic" id="NameTopic" /></p>    
+                    
+            <p><b>Text topic</b></p>  
+            @if (Model.Item1.ContextTopic != null)
+            {
+                <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic">@Model.Item1.ContextTopic </textarea></p>
+            } 
+            @if (Model.Item1.ContextTopic == null)
+            {
+                <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic"></textarea></p>
+            }   
             <p><input type="submit" value="Create"></p>
+
+            
+        </form>
+
+
+        <form id="GetContext" method="post" action="~/Home/GetContext" onsubmit="return valid(this)">
+            <p><b>Url site with data</b></p>
+            <p><input type="text" id="urlSite" name="urlSite" /></p>
+            <p><input type="submit" value="Get context"></p>
         </form>
     </div>
 </section>
@@ -44,17 +61,34 @@
         function validate(form) {
             var elems = form.elements;
 
-            resetError(elems.nameTopic.parentNode);
-            if (!elems.nameTopic.value) {
-                showError(elems.nameTopic.parentNode, ' Enter name');
+            resetError(elems.NameTopic.parentNode);
+            if (!elems.NameTopic.value) {
+                showError(elems.NameTopic.parentNode, ' Enter name');
+                return false;
             }
 
-            resetError(elems.textTopic.parentNode);
-            if (!elems.textTopic.value) {
-                showError(elems.textTopic.parentNode, ' Enter text ');
-            }
+            resetError(elems.ContextTopic.parentNode);
+            if (!elems.ContextTopic.value) {
+                showError(elems.ContextTopic.parentNode, ' Enter text ');
+                return false;
+            }   
         }
+        function valid(form) {
+            var elems = form.elements;
+            resetError(elems.urlSite.parentNode);
+            if (elems.urlSite.value == "") {
+                showError(elems.urlSite.parentNode, ' Enter url ');
+                return false;
+            }
 
+            resetError(elems.NameTopic.parentNode);
+            if (document.getElementById("NameTopic").value == null) {
+                showError(elems.NameTopic.parentNode, ' Enter name');
+                return false;
+            }
+
+
+        }
 
         function showError(container, errorMessage) {
             container.className = 'error';
@@ -70,6 +104,6 @@
                 container.removeChild(container.lastChild);
             }
         }
-
-
+        
+       
     </script>

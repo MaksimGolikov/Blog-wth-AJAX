@@ -45,7 +45,7 @@
                                             Id: "@item.Id"                                           
                                         },
                                         success: function (data) {
-                                            document.getElementById('nameTopic').value = data.nameTopic;
+                                            document.getElementById('NameTopic').value = data.NameTopic;
                                             document.getElementById('ContextTopic').value = data.ContextTopic;
                                             document.getElementById('Id').value = data.Id;                                            
                                         }
@@ -59,19 +59,56 @@
             }
         </table>
 
-        <form method="post" action="~/Home/Edit">
+        <form method="post" action="~/Home/Edit" onsubmit="return validate(this)">
             <p><b>Name topic</b></p>
-           
-                <p><input type="text" name="nameTopic" id="nameTopic"  /></p>
-                <input type="hidden" name="Id" id="Id"   />           
-            
+
+            <p><input type="text" name="NameTopic" id="NameTopic" /></p>
+            <input type="hidden" name="Id" id="Id" />
+
             <p><b>Text topic</b></p>
-          
-                <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic"></textarea></p>
-           
+
+            <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic"></textarea></p>
+
             <p><input type="submit" value="Edit"></p>
         </form>
     </div>
 
 </section>
 
+<script>
+
+
+    function validate(form) {
+        var elems = form.elements;
+
+        resetError(elems.NameTopic.parentNode);
+        if (!elems.NameTopic.value) {
+            showError(elems.NameTopic.parentNode, ' Enter name');
+            return false;
+        }
+
+        resetError(elems.ContextTopic.parentNode);
+        if (!elems.ContextTopic.value) {
+            showError(elems.ContextTopic.parentNode, ' Enter text ');
+            return false;
+        }
+    }
+
+
+    function showError(container, errorMessage) {
+        container.className = 'error';
+        var msgElem = document.createElement('span');
+        msgElem.className = "error-message";
+        msgElem.innerHTML = errorMessage;
+        container.appendChild(msgElem);
+    }
+
+    function resetError(container) {
+        container.className = '';
+        if (container.lastChild.className == "error-message") {
+            container.removeChild(container.lastChild);
+        }
+    }
+
+
+</script>

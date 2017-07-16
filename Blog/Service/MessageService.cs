@@ -10,34 +10,34 @@ namespace Blog.Service
 {
     public class MessageService
     {
-        private MessageFunction messageRepos;
-        private UserFunction userRepos;
+        private MessageFunction messageRepositories;
+        private UserFunction userRepositories;
 
         public MessageService()
         {
             BlogContext DBcontext = new BlogContext();
-            messageRepos = new MessageFunction(DBcontext);
-            userRepos = new UserFunction(DBcontext);
+            messageRepositories = new MessageFunction(DBcontext);
+            userRepositories = new UserFunction(DBcontext);
         }
 
 
 
         public IEnumerable<Message> GetMessageByTopicId(int idTopic)
         {
-            var messages = messageRepos.GetMessage(idTopic);
+            var messages = messageRepositories.GetMessage(idTopic);
             return messages;
         }
 
         public void CreateMessage(Message newMessage,string userName)
         {
-            var user = userRepos.FindUserByLogin(userName);
+            var user = userRepositories.FindUserByLogin(userName);
             newMessage.UserName = user.FirstName;
-            messageRepos.AddMessage(newMessage);
+            messageRepositories.AddMessage(newMessage);
         }
         public void CreateMessage(Message newMessage)
         {
             newMessage.UserName = "Guest";
-            messageRepos.AddMessage(newMessage);
+            messageRepositories.AddMessage(newMessage);
         }
 
     }

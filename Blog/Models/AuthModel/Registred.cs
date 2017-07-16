@@ -17,6 +17,7 @@ namespace Blog.Models.AuthModel
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
     }
 }

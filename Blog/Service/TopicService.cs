@@ -12,25 +12,25 @@ namespace Blog.Service
     public class TopicService
     {
 
-        private TopicFunction topicRepos;
+        private TopicFunction topicRepositiries;
 
 
         public TopicService ()
         {
            BlogContext DBcontext = new Entity.BlogContext();
-           topicRepos = new TopicFunction(DBcontext);
+           topicRepositiries = new TopicFunction(DBcontext);
         }
 
 
         public IEnumerable<Topic> GetAllTopic()
         {
-            var topics = topicRepos.GetAllTopic();
+            var topics = topicRepositiries.GetAllTopic();
             return topics;
         }
 
         public Topic GetTopic(int idTopic)
         {
-           return topicRepos.GetTopicContext(idTopic);
+           return topicRepositiries.GetTopicContext(idTopic);
         }
 
 

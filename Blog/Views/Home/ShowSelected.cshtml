@@ -24,12 +24,12 @@
         <p>
             @Model.Item1.PablishingData<br />
         </p>
-        <p>@Model.Item1.ContextTopic</p>
+        <p class=".pTag">@Model.Item1.ContextTopic</p>
     </div>
 
    
-        <h3 id="Comments"> Comments </h3>
-    <div id="comments">
+        <h3> Comments </h3>
+    <div id="Comments">
         @foreach (var item in Model.Item2)
         {
             <div class="docs-content">
@@ -37,47 +37,48 @@
                 <p>@item.MessageText</p>
             </div>
         }
-    </div>   
-    <div id="newMess">
+    </div>  
+   
+    <div id="result">
 
     </div>
-        <div class="docs-content" >   
-            <form  id="loginForm">
+        <div class="docs-content">
+            <form id="loginForm" onsubmit="return validate(this)">
 
                 <input type="hidden" value="@Model.Item1.Id" id="idTop" />
                 <p><b>Введите ваш отзыв:</b></p>
                 <p><textarea rows="5" cols="100" id="messageText"></textarea></p>
-                <input type="submit" value="Send" id="sendMessage" />  
-                
-            </form>             
-       </div>
-   
-    <script>
-        $(function () {
-            $("#loginForm").submit(function () {
-                $.ajax({
-                    url: "/api/ajax",
-                    type: "POST",
-                    data: {
+                <input type="submit" value="Send" id="sendMessage" />
+
+            </form>
+        </div>
+
+        <script>
+            $(function () {
+                $("#loginForm").submit(function () {
+                    $.ajax({
+                        url: "/api/ajax",
+                        type: "POST",
+                        data: {
                             Id: "0",
-                            UserName:"user",
-                            PablishingData:"date",
+                            UserName: "user",
+                            PablishingData: "date",
                             IdTopic: $("#idTop").val(),
                             MessageText: $("#messageText").val()
-                    },
-                    success: function (data) {
-                        var res = "";
-                        for (var i = 0; i < data.length; i++) {
-                            res += data[i].UserName + "<br />";
-                            res += data[i].MessageText + "<br />";
+                        },
+                        success: function (data) {                            
+                            var res = "";
+                            for (var i = 0; i < data.length; i++) {
+                                res += data[i].UserName + "<br />";
+                                res += data[i].MessageText + "<br />";
+                            }
+                            $("#result").html(res);                           
                         }
-                        $('#newMess').html(res);
-                    }
+                    });
                 });
+
             });
-           
-        });
-       
-    </script>
+
+        </script>
 
 </section>

@@ -5,53 +5,74 @@ using System.Web;
 using Blog.Entity;
 using Blog.Models;
 using Blog.Repositories;
+using HtmlAgilityPack;
 
 namespace Blog.Service
 {
     public class AdminSevrice
     {
-        private TopicFunction tableRepos;
-        private UserFunction userRepos;
+        private TopicFunction tableRepositories;
+        private UserFunction userRepositories;
 
 
 
         public AdminSevrice()
         {
             BlogContext DBcontext = new BlogContext();
-            tableRepos = new TopicFunction(DBcontext);
-            userRepos = new UserFunction(DBcontext);
+            tableRepositories = new TopicFunction(DBcontext);
+            userRepositories = new UserFunction(DBcontext);
         }
 
 
         public void AddTopic(Topic newTopic)
         {
             newTopic.PablishingData= DateTime.Now.Date.ToString();
-            tableRepos.AddNewTopic(newTopic);
+            tableRepositories.AddNewTopic(newTopic);
         }
 
         public void DeleteTopic(int idTopic)
         {
-            tableRepos.DeleteTopic(idTopic);
+            tableRepositories.DeleteTopic(idTopic);
         }
         public void ChangeTopic(Topic topic)
         {
-            tableRepos.ChangeTopic(topic);
+            tableRepositories.ChangeTopic(topic);
         }
 
         public string ChangeUserRole(string newRole, int idUser)
         {
             string status = "Ok";
 
-            var user = userRepos.GetUser(idUser);
+            var user = userRepositories.GetUser(idUser);
             if (newRole == "")
             {
                 return "Error";
             }
             user.Role = newRole;
-            userRepos.ChangeUser(user);
+            userRepositories.ChangeUser(user);
             return status;
         }
-       
+
+
+        public string GetContextFromOtherSite(string Url)
+        {
+            var returnedText = "";      
+    
+            if(Url != null && Url !="")
+            {
+                var Webget = new HtmlWeb();
+                var doc = Webget.Load(Url);
+
+                foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//p"))
+                {
+                    returnedText += node.ChildNodes[0].InnerHtml;
+                }
+            }
+                        
+
+            return returnedText;
+        }
+
 
     }
 }

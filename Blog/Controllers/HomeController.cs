@@ -7,6 +7,12 @@ using Blog.Service;
 using Blog.Models;
 using System.Web.Security;
 using Blog.Models.AuthModel;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Net;
+using HtmlAgilityPack;
+
 
 namespace Blog.Controllers
 {
@@ -106,6 +112,11 @@ namespace Blog.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(model.Password != model.ConfirmPassword)
+                {
+                    Tuple<Registred, ForMasterPage> Newmodel = new Tuple<Registred, ForMasterPage>(new Registred(), UpdateMasterPageData());
+                    return View("Autification", Newmodel);    
+                }
 
                 if(!userService.ExistUser(model.Login))
                 {
@@ -117,8 +128,8 @@ namespace Blog.Controllers
                     }
                 }
             }
-            Tuple<Registred, ForMasterPage> Newmodel = new Tuple<Registred, ForMasterPage>(new Registred(), UpdateMasterPageData());
-            return View("Autification", Newmodel);           
+            Tuple<Registred, ForMasterPage> Newmodels = new Tuple<Registred, ForMasterPage>(new Registred(), UpdateMasterPageData());
+            return View("Autification", Newmodels);           
         }
 
                
@@ -162,18 +173,15 @@ namespace Blog.Controllers
           [HttpPost]
           public ActionResult Create(Topic id)
           {
-              try
+              if(id.NameTopic == null || id.ContextTopic == null)
               {
-                  adminService.AddTopic(id);                
+                   return RedirectToAction("AdminIndex");
               }
-              catch
-              {                 
-              }
+
+              adminService.AddTopic(id); 
               return RedirectToAction("AdminIndex");
           }
-
-
-
+        
 
           public ActionResult Edit()
           {
@@ -186,6 +194,10 @@ namespace Blog.Controllers
           [HttpPost]
           public ActionResult Edit(Topic t)
           {
+              if(t.NameTopic == null || t.ContextTopic == null)
+              {
+                  return RedirectToAction("Edit");
+              }
               adminService.ChangeTopic(t);
 
               return RedirectToAction("AdminIndex");
@@ -228,6 +240,19 @@ namespace Blog.Controllers
               return View("~/Views/Admin/ChangeUserRole.cshtml", model);
           }
 
+
+          public ActionResult GetContext(string urlSite)
+          {
+              if (urlSite == null)
+              {
+                  Tuple<Topic, ForMasterPage> model = new Tuple<Topic, ForMasterPage>(new Topic(), UpdateMasterPageData());
+                  return View("~/Views/Admin/CreateTopic.cshtml", model); 
+              }
+              Tuple<Topic, ForMasterPage> modelDone = new Tuple<Topic, ForMasterPage>(new Topic() { ContextTopic = adminService.GetContextFromOtherSite(urlSite) },
+                                                                                      UpdateMasterPageData());
+              return View("~/Views/Admin/CreateTopic.cshtml", modelDone);
+              
+          }
 #endregion
 
 

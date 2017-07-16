@@ -11,14 +11,14 @@ namespace Blog.Service
 {
     public class UserService
     {
-        UserFunction userRepos;
-        TopicFunction topicRepos;
+        UserFunction userRepositories;
+        TopicFunction topicRepositories;
 
         public UserService()
         {
             BlogContext DBcontext = new BlogContext();
-            userRepos = new UserFunction(DBcontext);
-            topicRepos = new TopicFunction(DBcontext);
+            userRepositories = new UserFunction(DBcontext);
+            topicRepositories = new TopicFunction(DBcontext);
         }
 
 
@@ -38,24 +38,24 @@ namespace Blog.Service
             us.Password = newUser.Password;
             us.Role = "user";
 
-            userRepos.CreateNewUser(us);
+            userRepositories.CreateNewUser(us);
             return status;
         }
         public IEnumerable<User> GetUsers()
         {
-            return userRepos.GetUsers();
+            return userRepositories.GetUsers();
         }
 
         public string ChangeUserInformation(User updatedUser)
         {
             string status = "Ok";
 
-            var user = userRepos.GetUser(updatedUser.Id);
+            var user = userRepositories.GetUser(updatedUser.Id);
             if (user == null)
             {
                 return "Error";
             }
-            userRepos.ChangeUser(updatedUser);
+            userRepositories.ChangeUser(updatedUser);
             return status;
         }
 
@@ -63,7 +63,7 @@ namespace Blog.Service
         {
             string status = "Ok";
 
-            var user = userRepos.FindUserByLogin(loginData.LoginName);               
+            var user = userRepositories.FindUserByLogin(loginData.LoginName);               
             if (user == null)
             {
                 return "Errore";  
@@ -74,20 +74,20 @@ namespace Blog.Service
 
         public User GetUser(string login)
         {
-            var user = userRepos.FindUserByLogin(login);
+            var user = userRepositories.FindUserByLogin(login);
             return user;
         }
 
         public User GetUser(User us)
         {
-            var user = userRepos.GetUser(us);
+            var user = userRepositories.GetUser(us);
             return user;
         }
 
         public bool ExistUser(User us)
         {        
             var res =true;
-            var user = userRepos.GetUser(us);
+            var user = userRepositories.GetUser(us);
 
             if(user == null){
                 res  = false; 
@@ -97,7 +97,7 @@ namespace Blog.Service
         public bool ExistUser(string UserLogin)
         {
             var res = true;
-            var user = userRepos.FindUserByLogin(UserLogin);
+            var user = userRepositories.FindUserByLogin(UserLogin);
 
             if (user == null)
             {
