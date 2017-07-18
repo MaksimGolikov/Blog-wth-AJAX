@@ -26,7 +26,7 @@
     <div class="docs-content">
         <h2>New topic</h2>
 
-        <form method="post" action="~/Home/Create" onsubmit="return validate(this)">
+        <form method="post" action="~/Admin/Create" id="Edit-form">
             <p><b>Name topic</b></p>
             <p><input type="text" name="NameTopic" id="NameTopic" /></p>    
                     
@@ -45,7 +45,7 @@
         </form>
 
 
-        <form id="GetContext" method="post" action="~/Home/GetContext" onsubmit="return valid(this)">
+        <form id="GetContext" method="post" action="~/Topic/GetContext">
             <p><b>Url site with data</b></p>
             <p><input type="text" id="urlSite" name="urlSite" /></p>
             <p><input type="submit" value="Get context"></p>
@@ -57,53 +57,30 @@
 
     <script>
 
+        $(function () {
+            $("#Edit-form").validate({
 
-        function validate(form) {
-            var elems = form.elements;
+                rules: {
+                    NameTopic: {
+                        required: true
+                    },
+                    ContextTopic: {
+                        required: true
+                    }
+                }
+            });
+        });
 
-            resetError(elems.NameTopic.parentNode);
-            if (!elems.NameTopic.value) {
-                showError(elems.NameTopic.parentNode, ' Enter name');
-                return false;
-            }
+        $(function () {
+            $("#GetContext").validate({
 
-            resetError(elems.ContextTopic.parentNode);
-            if (!elems.ContextTopic.value) {
-                showError(elems.ContextTopic.parentNode, ' Enter text ');
-                return false;
-            }   
-        }
-        function valid(form) {
-            var elems = form.elements;
-            resetError(elems.urlSite.parentNode);
-            if (elems.urlSite.value == "") {
-                showError(elems.urlSite.parentNode, ' Enter url ');
-                return false;
-            }
-
-            resetError(elems.NameTopic.parentNode);
-            if (document.getElementById("NameTopic").value == null) {
-                showError(elems.NameTopic.parentNode, ' Enter name');
-                return false;
-            }
-
-
-        }
-
-        function showError(container, errorMessage) {
-            container.className = 'error';
-            var msgElem = document.createElement('span');
-            msgElem.className = "error-message";
-            msgElem.innerHTML = errorMessage;
-            container.appendChild(msgElem);
-        }
-
-        function resetError(container) {
-            container.className = '';
-            if (container.lastChild.className == "error-message") {
-                container.removeChild(container.lastChild);
-            }
-        }
-        
+                rules: {
+                    urlSite: {
+                        required: true,
+                        url: true
+                    }
+                }
+            });
+        });
        
     </script>

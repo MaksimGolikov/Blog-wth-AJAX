@@ -1,0 +1,117 @@
+﻿@using System.Drawing;
+@using Blog.Models;
+@using Blog.Models.AuthModel;
+
+@model  Tuple<Registred, ForMasterPage>
+
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>
+
+    
+    <div class="docs-content">
+        <form method="post" action="~/Authentication/Registration" id="Registration-form">
+            <h2>Registration</h2>
+            @Html.AntiForgeryToken()
+            <table border="0">
+                <tr>
+                    <td>
+                        <h4 class="toplinks">Filling fild for create account</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Name </h4>
+                        <input name="FirstName" id="FirstName" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Second name </h4>
+                        <input name="SecondName" id="SecondName" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Login </h4>
+                        <input name="Login" id="Login" type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Password </h4>
+                        <input name="Password" id="pass" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Confirm password </h4>
+                        <input name="ConfirmPassword" id="confirmPass" type="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Create account" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+
+
+
+
+    <script>
+    $(function () {
+        $("#Registration-form").validate({
+
+            rules: {
+                FirstName: {
+                    required: true
+                },
+                SecondName: {
+                    required: true
+                },
+                Login: {
+                    required: true
+                },
+                Password: {
+                    required: true,
+                    minlength: 5
+                },
+                ConfirmPassword: {
+                    required: true,
+                    minlength: 5,                    
+                    equalTo: "#pass"
+        
+                }
+            }
+        });
+    });
+    </script>
+
+ </section>
+
+
+
+
+
+
+   

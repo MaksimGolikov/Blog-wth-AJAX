@@ -15,9 +15,9 @@ namespace Blog.Service
 
         public MessageService()
         {
-            BlogContext DBcontext = new BlogContext();
-            messageRepositories = new MessageFunction(DBcontext);
-            userRepositories = new UserFunction(DBcontext);
+            BlogContext dbContext = new BlogContext();
+            messageRepositories = new MessageFunction(dbContext);
+            userRepositories = new UserFunction(dbContext);
         }
 
 
@@ -27,6 +27,7 @@ namespace Blog.Service
             var messages = messageRepositories.GetMessage(idTopic);
             return messages;
         }
+      
 
         public void CreateMessage(Message newMessage,string userName)
         {

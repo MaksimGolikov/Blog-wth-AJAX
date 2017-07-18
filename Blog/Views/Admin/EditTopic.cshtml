@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/MainPage.cshtml";
 }
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
 
 <nav>
     <div class="container">
@@ -39,7 +39,7 @@
                             $(function () {
                                 $("#@item.Id-link").click(function () {
                                     $.ajax({
-                                        url: "/api/ajax",
+                                        url: "/api/ajaxtopic",
                                         type: "GET",
                                         data: {
                                             Id: "@item.Id"                                           
@@ -59,7 +59,7 @@
             }
         </table>
 
-        <form method="post" action="~/Home/Edit" onsubmit="return validate(this)">
+        <form method="post" action="~/Admin/Edit" id="Edit-form">
             <p><b>Name topic</b></p>
 
             <p><input type="text" name="NameTopic" id="NameTopic" /></p>
@@ -77,38 +77,20 @@
 
 <script>
 
+    $(function(){
+        $("#Edit-form").validate({
 
-    function validate(form) {
-        var elems = form.elements;
+            rules: {
+                NameTopic: {
+                    required: true
+                },
+                ContextTopic:{
+                    required: true
+                }
+            }
+        });
+    });
 
-        resetError(elems.NameTopic.parentNode);
-        if (!elems.NameTopic.value) {
-            showError(elems.NameTopic.parentNode, ' Enter name');
-            return false;
-        }
-
-        resetError(elems.ContextTopic.parentNode);
-        if (!elems.ContextTopic.value) {
-            showError(elems.ContextTopic.parentNode, ' Enter text ');
-            return false;
-        }
-    }
-
-
-    function showError(container, errorMessage) {
-        container.className = 'error';
-        var msgElem = document.createElement('span');
-        msgElem.className = "error-message";
-        msgElem.innerHTML = errorMessage;
-        container.appendChild(msgElem);
-    }
-
-    function resetError(container) {
-        container.className = '';
-        if (container.lastChild.className == "error-message") {
-            container.removeChild(container.lastChild);
-        }
-    }
 
 
 </script>

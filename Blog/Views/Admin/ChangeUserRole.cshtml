@@ -30,21 +30,21 @@
             <table>
                 <tr>
                     <td>
-                        <form action="~/Home/ChangeUserRole">
+                        <form action="~/Admin/ChangeUserRole">
                             <input type="hidden" value="@item.Id" name="Id"/>
                             <input type="hidden" value="admin" name="Role" />
                             <input type="submit" value="Set admin role">
                         </form>                                        
                     </td>
                     <td>                       
-                        <form action="~/Home/ChangeUserRole">
+                        <form action="~/Admin/ChangeUserRole">
                             <input type="hidden" value="@item.Id" name="Id" />
                             <input type="hidden" value="user" name="Role" />
                             <input type="submit" value="Set user role">
                         </form>              
                     </td>
                     <td>                        
-                        <form action="~/Home/ChangeUserRole">
+                        <form action="~/Admin/ChangeUserRole">
                             <input type="hidden" value="@item.Id" name="Id" />
                             <input type="hidden" value="gold" name="Role" />
                             <input type="submit" value="Set gold role">

@@ -1,23 +1,24 @@
 ﻿@using Blog.Models
 @model ForMasterPage
-
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
 
 <ul class="toplinks">
     <li><a href="~/Home/Me">About me</a></li>
     <li><a href="~/Home/Index">Blog</a></li>
     @if (!Model.UserAuthorisaed)
     {
-        <li><a href="~/Home/Register">Registration</a></li>
-        <li><a href="~/Home/Login">Login</a></li>
+        <li><a href="~/Authentication/Register">Registration</a></li>
+        <li><a href="~/Authentication/Login">Login</a></li>
     }
     @if (Model.UserAuthorisaed)
     {
-        <li><a href="~/Home/LogOff">Log Off </a></li>
-        <li><a href="~/Home/UserProfile">Your profile </a></li>
+        <li><a href="~/Authentication/LogOff">Log Off </a></li>
+        <li><a href="~/Account/UserProfile">Your profile </a></li>
     }
     @if (Model.UserRole == "admin")
     {
-        <li><a href="~/Home/AdminIndex"> To admin page </a></li>
+        <li><a href="~/Admin/AdminIndex"> To admin page </a></li>
     } 
     @if(Model.UserRole == "gold")
     {
@@ -27,7 +28,7 @@
         <li><a href="#"> @Model.UserName </a> </li>  
     } 
     @if(Model.UserAuthorisaed){
-        <li><a href="~/Home/UserProfile"> @Model.UserName </a> </li>  
+        <li><a href="~/Account/UserProfile"> @Model.UserName </a> </li>  
     }  
             
             

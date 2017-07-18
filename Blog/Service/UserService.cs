@@ -16,9 +16,9 @@ namespace Blog.Service
 
         public UserService()
         {
-            BlogContext DBcontext = new BlogContext();
-            userRepositories = new UserFunction(DBcontext);
-            topicRepositories = new TopicFunction(DBcontext);
+            BlogContext dbContext = new BlogContext();
+            userRepositories = new UserFunction(dbContext);
+            topicRepositories = new TopicFunction(dbContext);
         }
 
 

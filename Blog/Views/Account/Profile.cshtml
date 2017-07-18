@@ -1,0 +1,139 @@
+﻿@using System.Drawing;
+@using Blog.Models;
+
+@model  Tuple<User,ForMasterPage>
+
+@{
+    Layout = "/Views/MainPage.cshtml";
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu", Model.Item2);
+        </div>
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container">
+        <h2 class="docs-header"> Blog about Embedded system</h2>
+    </div>
+</header>
+<section>    
+    <div class="docs-content">
+        <form id="Profil-form" >
+          
+            <table border="0">
+                <tr>
+                    <td>
+                        <h4 class="toplinks">Data about you account</h4>
+                        <h5 id="Status"></h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Name </h4>
+                        <input name="FirstName" type="text" value="@Model.Item1.FirstName" id="first_name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Second name </h4>
+                        <input name="SecondName" type="text" value="@Model.Item1.SecondName" id="second_name" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Login </h4>
+                        <input name="Login" id="login" type="text" value="@Model.Item1.Login" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Password </h4>
+                        <input name="Password" type="password" value="@Model.Item1.Password" id="pass" />
+                    </td>
+                    <td>
+                        <h4> Confirm passrord </h4>
+                        <input name="ConfirmPassword" type="password" value="@Model.Item1.Password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4> Your are @Model.Item1.Role</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="hidden" value="@Model.Item1.Role" name="Role" id="role"/>
+                        <input type="hidden" value="@Model.Item1.Id" name="Id" id="id"/>
+                        <input type="button" value="Change" id="send"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</section>
+
+<script>
+   
+    
+    $(function () {
+        $("#Profil-form").validate({
+
+            rules: {
+                FirstName: {
+                    required: true
+                },
+                SecondName: {
+                    required: true
+                },
+                Login: {
+                    required: true,
+                },
+                Password: {
+                    required: true,
+                    minlength: 5
+                },
+                ConfirmPassword: {
+                    required: true,
+                    minlength: 5,
+                    equalTo: "#pass"
+                }
+            }
+            
+        });
+
+
+        $("#send").click(function () {
+            $.ajax({
+                url: "/api/ajaxuser",
+                type: "POST",
+                data: {
+                    Id: $("#id").val(),
+                    FirstName: $("#first_name").val(),
+                    SecondName: $("#second_name").val(),
+                    Login: $("#login").val(),
+                    Password: $("#pass").val(),
+                    Role: $("#role").val()
+                },
+                success: function (data) {
+                    var res = "";
+                    if (data == "True") {
+                        res = "<h3> Chouse login already exist </h3>";
+                    }
+                    if (data == "False") {
+                        res = "<h3> Profile changed </h3>";
+                    }
+                    $("#Status").html(res);
+                }
+            });
+        });
+
+
+
+    });
+    
+
+
+</script>

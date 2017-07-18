@@ -12,54 +12,54 @@ namespace Blog.Repositories
     public class UserFunction
     {
 
-        private BlogContext DBconnect;
+        private BlogContext dbConnect;
 
-        public UserFunction(BlogContext newDBconnect)
+        public UserFunction(BlogContext newDbConnect)
         {
-            DBconnect = newDBconnect;
+            dbConnect = newDbConnect;
         }
 
 
 
         public User GetUser(User user)
         {
-            var retrnedValue = DBconnect.Users.Where(u => u.Login== user.Login && u.Password == user.Password).FirstOrDefault();
+            var retrnedValue = dbConnect.Users.Where(u => u.Login== user.Login && u.Password == user.Password).FirstOrDefault();
             return retrnedValue;
         }
 
         public User GetUser(int idUser)
         {
-            var retrnedValue = DBconnect.Users.Where(u => u.Id == idUser).FirstOrDefault();
+            var retrnedValue = dbConnect.Users.Where(u => u.Id == idUser).FirstOrDefault();
             return retrnedValue;
         }
         public IEnumerable<User> GetUsers()
         {
-            return DBconnect.Users;
+            return dbConnect.Users;
         }
 
         public User FindUserByLogin(string login)
         {
-            var retrnedValue = DBconnect.Users.Where(u => u.Login == login).FirstOrDefault();
+            var retrnedValue = dbConnect.Users.Where(u => u.Login == login).FirstOrDefault();
             return retrnedValue;
         }
         
 
         public void CreateNewUser(User user)
-        {           
-            DBconnect.Users.Add(user);
-            DBconnect.SaveChanges();
+        {
+            dbConnect.Users.Add(user);
+            dbConnect.SaveChanges();
         }
 
         public void ChangeUser(User user)
         {
-            var us = DBconnect.Users.Where(u => u.Id == user.Id).FirstOrDefault();
+            var us = dbConnect.Users.Where(u => u.Id == user.Id).FirstOrDefault();
             us.FirstName = user.FirstName;
             us.SecondName = user.SecondName;
             us.Login = user.Login;
             us.Password = user.Password;
 
-            DBconnect.Entry(us).State = EntityState.Modified;
-            DBconnect.SaveChanges();
+            dbConnect.Entry(us).State = EntityState.Modified;
+            dbConnect.SaveChanges();
         }
 
 

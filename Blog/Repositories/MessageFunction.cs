@@ -11,29 +11,29 @@ namespace Blog.Repositories
     public class MessageFunction
     {
 
-        private BlogContext DBconnect;
+        private BlogContext dbConnect;
 
 
-        public MessageFunction(BlogContext newDBconnect)
+        public MessageFunction(BlogContext newDbconnect)
         {
-            DBconnect = newDBconnect;
+            dbConnect = newDbconnect;
         }
 
         public IEnumerable<Message> GetMessage(int idTopic)
         {
-            var retrnedValue = DBconnect.Messages.Where(m=>m.IdTopic == idTopic);
+            var retrnedValue = dbConnect.Messages.Where(m=>m.IdTopic == idTopic);
             return retrnedValue;
         }
         public IEnumerable<Message> GetAllMessage()
         {
-            var retrnedValue = DBconnect.Messages;
+            var retrnedValue = dbConnect.Messages;
             return retrnedValue;
         }
 
         public void AddMessage(Message message)
         {
-            DBconnect.Messages.Add(message);
-            DBconnect.SaveChanges();
+            dbConnect.Messages.Add(message);
+            dbConnect.SaveChanges();
         }
 
 

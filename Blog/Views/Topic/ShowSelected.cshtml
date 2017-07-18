@@ -4,7 +4,6 @@
     Layout = "~/Views/MainPage.cshtml";
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-
 <nav>
     <div class="container">
         <div id="menu">
@@ -20,7 +19,7 @@
 </header>
 <section>
     <div class="docs-content">
-        <h3 id="@Model.Item1.Id"> @Model.Item1.NameTopic </h3>
+        <h3> @Model.Item1.NameTopic </h3>
         <p>
             @Model.Item1.PablishingData<br />
         </p>
@@ -29,7 +28,7 @@
 
    
         <h3> Comments </h3>
-    <div id="Comments">
+    <div id="Comments" name="comments">
         @foreach (var item in Model.Item2)
         {
             <div class="docs-content">
@@ -39,44 +38,43 @@
         }
     </div>  
    
-    <div id="result">
 
-    </div>
+
+
+
+    <div id="result">  </div>
         <div class="docs-content">
-            <form id="loginForm" onsubmit="return validate(this)">
+            <form id="loginForm">
 
-                <input type="hidden" value="@Model.Item1.Id" id="idTop" />
+                <input type="hidden" value="@Model.Item1.Id" id="idTopic" />
                 <p><b>Введите ваш отзыв:</b></p>
                 <p><textarea rows="5" cols="100" id="messageText"></textarea></p>
-                <input type="submit" value="Send" id="sendMessage" />
+                <input type="button" value="Send" id="sendMessage" />
 
             </form>
         </div>
 
         <script>
             $(function () {
-                $("#loginForm").submit(function () {
+                $("#sendMessage").click(function () {
                     $.ajax({
-                        url: "/api/ajax",
+                        url: "/api/ajaxmessage",
                         type: "POST",
                         data: {
-                            Id: "0",
-                            UserName: "user",
-                            PablishingData: "date",
-                            IdTopic: $("#idTop").val(),
+                            IdTopic: $("#idTopic").val(),
                             MessageText: $("#messageText").val()
                         },
-                        success: function (data) {                            
-                            var res = "";
-                            for (var i = 0; i < data.length; i++) {
-                                res += data[i].UserName + "<br />";
-                                res += data[i].MessageText + "<br />";
-                            }
-                            $("#result").html(res);                           
+                        success: function (data) {
+                                var res = "";
+                                res += "<div class='docs-content'>";
+                                res += "<h3>"+data.UserName+"</h3>";
+                                res += "<p>"+data.MessageText+"</p>";
+                                res += "</div>";
+                                $("#Comments").append(res);
+                                $("#messageText").val('');
                         }
                     });
                 });
-
             });
 
         </script>

@@ -5,38 +5,40 @@ using System.Web;
 using Blog.Entity;
 using Blog.Models;
 using Blog.Repositories;
-using HtmlAgilityPack;
 
 namespace Blog.Service
 {
     public class AdminSevrice
     {
-        private TopicFunction tableRepositories;
+        private TopicFunction topicRepositories;
         private UserFunction userRepositories;
 
 
 
         public AdminSevrice()
         {
-            BlogContext DBcontext = new BlogContext();
-            tableRepositories = new TopicFunction(DBcontext);
-            userRepositories = new UserFunction(DBcontext);
+            BlogContext dbContext = new BlogContext();
+            topicRepositories = new TopicFunction(dbContext);
+            userRepositories = new UserFunction(dbContext);
         }
 
 
         public void AddTopic(Topic newTopic)
         {
-            newTopic.PablishingData= DateTime.Now.Date.ToString();
-            tableRepositories.AddNewTopic(newTopic);
+            newTopic.PablishingData = DateTime.Now.Date.ToString("ddMMyyyy");
+            topicRepositories.AddNewTopic(newTopic);
         }
 
         public void DeleteTopic(int idTopic)
         {
-            tableRepositories.DeleteTopic(idTopic);
+            topicRepositories.DeleteTopic(idTopic);
         }
         public void ChangeTopic(Topic topic)
         {
-            tableRepositories.ChangeTopic(topic);
+            if(topicRepositories.TopicExist(topic))
+            {
+                topicRepositories.ChangeTopic(topic);
+            }           
         }
 
         public string ChangeUserRole(string newRole, int idUser)
@@ -53,25 +55,24 @@ namespace Blog.Service
             return status;
         }
 
+              
 
-        public string GetContextFromOtherSite(string Url)
+        public IEnumerable<Topic> GetAllTopic()
         {
-            var returnedText = "";      
-    
-            if(Url != null && Url !="")
-            {
-                var Webget = new HtmlWeb();
-                var doc = Webget.Load(Url);
-
-                foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//p"))
-                {
-                    returnedText += node.ChildNodes[0].InnerHtml;
-                }
-            }
-                        
-
-            return returnedText;
+            var topics = topicRepositories.GetAllTopic();
+            return topics;
         }
+        public IEnumerable<User> GetUsers()
+        {
+            return userRepositories.GetUsers();
+        }
+        public User GetUser(string login)
+        {
+            var user = userRepositories.FindUserByLogin(login);
+            return user;
+        }
+
+
 
 
     }

@@ -10,49 +10,59 @@ namespace Blog.Repositories
 {
     public class TopicFunction
     {
-        private BlogContext DBconnect;
+        private BlogContext dbConnect;
 
-        public TopicFunction(BlogContext newDBconnect)
+        public TopicFunction(BlogContext newDbconnect)
         {
-            DBconnect = newDBconnect;
+            dbConnect = newDbconnect;
         }
 
 
 
         public IEnumerable<Topic> GetAllTopic()
         {
-            return DBconnect.Topic;
+            return dbConnect.Topic;
         }
         public void AddNewTopic(Topic newTopic)
-        {           
-            DBconnect.Topic.Add(newTopic);
-            DBconnect.SaveChanges();
+        {
+            dbConnect.Topic.Add(newTopic);
+            dbConnect.SaveChanges();
         }
 
         public Topic GetTopicContext(int idTopic)
         {
-            var context = DBconnect.Topic.Find(idTopic);
+            var context = dbConnect.Topic.Find(idTopic);
             return context;
         }
 
         public void ChangeTopic(Topic topic)
         {    
-            var local = DBconnect.Topic.Where(t=>t.Id == topic.Id).FirstOrDefault();
+            var local = dbConnect.Topic.Where(t=>t.Id == topic.Id).FirstOrDefault();
             local.NameTopic = topic.NameTopic;
             local.ContextTopic = topic.ContextTopic;
 
-            DBconnect.Entry(local).State = EntityState.Modified;
-            DBconnect.SaveChanges();
+            dbConnect.Entry(local).State = EntityState.Modified;
+            dbConnect.SaveChanges();
         }
 
         public void DeleteTopic(int idTopic)
         {
-            var t = DBconnect.Topic.Find(idTopic);
-            DBconnect.Topic.Remove(t);
-            DBconnect.SaveChanges();
+            var t = dbConnect.Topic.Find(idTopic);
+            dbConnect.Topic.Remove(t);
+            dbConnect.SaveChanges();
         }
-        
 
+        public bool TopicExist(Topic topic)
+        {
+            var returned = true;
+            var fromDb = dbConnect.Topic.Where(t=> t.Id == topic.Id).FirstOrDefault();;
+            if(fromDb == null)
+            {
+                returned = false;
+            }
+
+            return returned;
+        }
         
     }
 }
