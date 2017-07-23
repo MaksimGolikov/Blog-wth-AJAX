@@ -25,6 +25,12 @@ namespace Blog.Service
         public IEnumerable<Message> GetMessageByTopicId(int idTopic)
         {
             var messages = messageRepositories.GetMessage(idTopic);
+
+            foreach(var item in messages)
+            {
+                item.PablishingData = item.PablishingData.ToLocalTime();
+            }
+
             return messages;
         }
       
@@ -33,11 +39,19 @@ namespace Blog.Service
         {
             var user = userRepositories.FindUserByLogin(userName);
             newMessage.UserName = user.FirstName;
+
+            newMessage.PablishingData = DateTime.UtcNow;
+
             messageRepositories.AddMessage(newMessage);
         }
+
+
         public void CreateMessage(Message newMessage)
         {
             newMessage.UserName = "Guest";
+            newMessage.PablishingData = DateTime.UtcNow;
+
+
             messageRepositories.AddMessage(newMessage);
         }
 

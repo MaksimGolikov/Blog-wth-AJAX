@@ -6,6 +6,7 @@
 
 @{
     Layout = "/Views/MainPage.cshtml";
+    Culture = UICulture = Model.Item2.Language;
 }
 <nav>
     <div class="container">
@@ -17,31 +18,31 @@
 </nav>
 <header>
     <div class="container">
-        <h2 class="docs-header"> Blog about Embedded system</h2>
+        <h2 class="docs-header"> @Resources.Home.BlogName </h2>
     </div>
 </header>
 <section>
 
-    <h2>Log in</h2>
+    <h2>@Resources.Authentication.Log</h2>
     <div class="docs-content">
         <form method="post" action="~/Authentication/Login" id="Send-form">
 
             @Html.AntiForgeryToken()                       
                 <div>                 
                     <div>
-                      <p>Login</p>
+                      <p>@Resources.Authentication.Login</p>
                       <input type="text" name="LoginName" />
                     </div>
                 </div>
                 <div>
-                   <p>Password</p>
+                   <p>@Resources.Authentication.Password</p>
                     <div>
                         <input type="password" name="Password"/>                           
                 </div>
 
                 <div>
                     <input type="hidden" name="Role" value="guest">
-                    <input type="submit" value="Log in" />
+                    <input type="submit" value="@Resources.Authentication.Log" />
                 </div>
             </div>
          </form>

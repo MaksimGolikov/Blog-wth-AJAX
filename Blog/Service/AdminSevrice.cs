@@ -25,7 +25,7 @@ namespace Blog.Service
 
         public void AddTopic(Topic newTopic)
         {
-            newTopic.PablishingData = DateTime.Now.Date.ToString("ddMMyyyy");
+            newTopic.PablishingData = DateTime.UtcNow;
             topicRepositories.AddNewTopic(newTopic);
         }
 

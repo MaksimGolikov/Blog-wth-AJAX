@@ -10,5 +10,6 @@ namespace Blog.Models
         public bool UserAuthorisaed { get; set; }
         public string UserName { get; set; }
         public string UserRole { get; set; }
+        public string Language { get; set; }
     }
 }

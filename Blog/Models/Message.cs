@@ -10,7 +10,7 @@ namespace Blog.Models
         public int Id { get; set; }
         public int IdTopic { get; set; }
         public string UserName { get; set; }
-        public string PablishingData { get; set; }
+        public DateTime PablishingData { get; set; }
         public string MessageText { get; set; }
 
     }

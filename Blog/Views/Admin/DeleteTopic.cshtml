@@ -2,6 +2,7 @@
 @model Tuple<IEnumerable<Topic>, ForMasterPage>
 @{
     Layout = "~/Views/MainPage.cshtml";
+    Culture = UICulture = Model.Item2.Language;
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
@@ -15,7 +16,7 @@
 </nav>
 <header>
     <div class="container">
-        <h2 class="docs-header"> Blog about Embedded system</h2>
+        <h2 class="docs-header"> @Resources.Home.BlogName</h2>
     </div>
 </header>
 <section>

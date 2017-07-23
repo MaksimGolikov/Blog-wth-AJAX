@@ -2,6 +2,7 @@
 @model Tuple<IEnumerable<User>,ForMasterPage>
 @{
     Layout = "~/Views/MainPage.cshtml";
+    Culture = UICulture = Model.Item2.Language;
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
@@ -15,7 +16,7 @@
 </nav>
 <header>
     <div class="container">
-        <h2 class="docs-header"> Blog about Embedded system</h2>
+        <h2 class="docs-header"> @Resources.Home.BlogName </h2>
     </div>
 </header>
 <section>
@@ -26,28 +27,28 @@
         @foreach(var item in Model.Item1)
         {
             <h4>@item.FirstName  @item.SecondName</h4>
-            <p>Current role is:   @item.Role</p>
+            <p>@Resources.Admin.CurrentRole:   @item.Role</p>
             <table>
                 <tr>
                     <td>
                         <form action="~/Admin/ChangeUserRole">
                             <input type="hidden" value="@item.Id" name="Id"/>
                             <input type="hidden" value="admin" name="Role" />
-                            <input type="submit" value="Set admin role">
+                            <input type="submit" value="@Resources.Admin.SetAdminRole">
                         </form>                                        
                     </td>
                     <td>                       
                         <form action="~/Admin/ChangeUserRole">
                             <input type="hidden" value="@item.Id" name="Id" />
                             <input type="hidden" value="user" name="Role" />
-                            <input type="submit" value="Set user role">
+                            <input type="submit" value="@Resources.Admin.SetUserRole">
                         </form>              
                     </td>
                     <td>                        
                         <form action="~/Admin/ChangeUserRole">
                             <input type="hidden" value="@item.Id" name="Id" />
                             <input type="hidden" value="gold" name="Role" />
-                            <input type="submit" value="Set gold role">
+                            <input type="submit" value="@Resources.Admin.SetGoldRole">
                         </form>              
                     </td>
                 </tr>

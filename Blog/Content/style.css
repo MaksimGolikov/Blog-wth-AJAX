@@ -5,6 +5,7 @@ body, html {
 
 body, 
 input,
+select,
 h1,
 h2,
 h3,
@@ -382,8 +383,30 @@ input {
     -o-transition: all linear 0.2s;
     transition: all linear 0.2s;
 }
-
 input:focus {
+    border-color: #007eb2;
+    outline: 0;
+}
+
+select {
+    display: block;
+    vertical-align: middle;
+    line-height: 40px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+
+       -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+
+    -webkit-transition: all linear 0.2s;
+    -moz-transition: all linear 0.2s;
+    -o-transition: all linear 0.2s;
+    transition: all linear 0.2s;
+}
+
+select:focus {
     border-color: #007eb2;
     outline: 0;
 }
@@ -403,6 +426,8 @@ input:focus {
     text-decoration: none;
     border-right: 2px solid transparent;
 }
+
+
 
 @media only screen and (min-width: 400px) {
 
@@ -446,7 +471,7 @@ input:focus {
 
     .docs-content {
         padding-left: 310px;
-        max-width:700px;
+       
     }
 
 
@@ -455,8 +480,7 @@ input:focus {
         padding: 4em 0 4em 0; 
     }
 
-    .container {
-        max-width: 1300px;
+    .container {        
         padding: 0 20px;
     }
 
@@ -470,6 +494,69 @@ input:focus {
     }
 
 
+     .n{
+            position: relative;
+            padding-top: 10px;
+            width: 250px;
 
+            -webkit-transition: top linear 50ms;
+            -moz-transition: top linear 50ms;
+            -o-transition: top linear 50ms;
+            transition: top linear 50ms;
+             background-color: #222;
+            list-style: none;
+            margin: 0 0 0 20px;
+            padding: 15px 20px 20px 20px;
+            font-size: 0.97em;
+        }        
+         
+        .n strong{color:#fff;}
+        .n a {
+            display: block;
+            margin: 0 -20px;
+            padding: 0 20px;
+            text-decoration: none;
+            border-right: 2px solid transparent;
+        }
+
+          .LeftMenuText {
+                margin-top: 10%;
+                border-bottom: ridge;
+                border-color: black;
+                border-width: 1px;
+            }
+
+
+
+          .Form {
+                float: left;
+                width: 700px;
+                text-align: left;
+                position: relative;
+                margin-left: 30%;
+
+                border-top:ridge;
+                border-width:1px;
+                border-color:black;
+                
+            }
+
+         .my {
+                float: left;
+                width: 700px;
+                text-align: left;
+                position: relative;
+                margin-left: 30%;
+
+                border-bottom:ridge;
+                border-width:1px;
+                border-color:black;
+            }
+
+         .message{           
+             float: left;
+             margin-left: 30%;
+             text-align: left;
+         }
 }
 

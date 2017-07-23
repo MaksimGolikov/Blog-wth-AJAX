@@ -17,15 +17,14 @@ namespace Blog.Service
         private TopicFunction topicRepositiries;
         private MessageFunction messageRepositories;
         private UserFunction userRepositories;
-
-
+        
 
         public TopicService ()
         {
            BlogContext dbContext = new BlogContext();
            topicRepositiries = new TopicFunction(dbContext);
            messageRepositories = new MessageFunction(dbContext);
-           userRepositories = new UserFunction(dbContext);
+           userRepositories = new UserFunction(dbContext);           
         }
 
 
@@ -37,22 +36,32 @@ namespace Blog.Service
 
         public Topic GetTopic(int idTopic)
         {
-           return topicRepositiries.GetTopicContext(idTopic);
+            var topic = topicRepositiries.GetTopicContext(idTopic);
+            topic.PablishingData = topic.PablishingData.ToLocalTime();
+
+            return topic;
         }
 
 
         public IEnumerable<Message> GetMessageByTopicId(int idTopic)
         {
             var messages = messageRepositories.GetMessage(idTopic);
+
+            foreach (var item in messages)
+            {
+                item.PablishingData = item.PablishingData.ToLocalTime();
+            }
+
             return messages;
         }
+
         public User GetUser(string login)
         {
             var user = userRepositories.FindUserByLogin(login);
             return user;
         }
 
-
+       
 
         public string GetContextFromOtherSite(string Url)
         {

@@ -3,34 +3,45 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 
+
+
 <ul class="toplinks">
-    <li><a href="~/Home/Me">About me</a></li>
-    <li><a href="~/Home/Index">Blog</a></li>
+    
+   
+    <li><a href="@Url.Action("Index", "Home", new { lang = @Model.Language })">@Resources.TopMenu.Blog</a></li>
+    <li><a href="@Url.Action("Me", "Home", new { lang = @Model.Language })">@Resources.TopMenu.AboutMe</a></li>
+
     @if (!Model.UserAuthorisaed)
     {
-        <li><a href="~/Authentication/Register">Registration</a></li>
-        <li><a href="~/Authentication/Login">Login</a></li>
+        <li><a href="@Url.Action("Register", "Authentication", new { lang = @Model.Language})">@Resources.TopMenu.Registration</a></li>
+        <li><a href="@Url.Action("Login", "Authentication", new { lang = @Model.Language })">@Resources.TopMenu.Login</a></li>      
     }
     @if (Model.UserAuthorisaed)
     {
-        <li><a href="~/Authentication/LogOff">Log Off </a></li>
-        <li><a href="~/Account/UserProfile">Your profile </a></li>
+        <li><a href="@Url.Action("LogOff", "Authentication", new { lang = @Model.Language })">@Resources.TopMenu.LogOff</a></li>
+        <li><a href="@Url.Action("UserProfile", "Account", new { lang = @Model.Language })">@Resources.TopMenu.Profile</a></li>       
     }
     @if (Model.UserRole == "admin")
     {
-        <li><a href="~/Admin/AdminIndex"> To admin page </a></li>
+        <li><a href="@Url.Action("AdminIndex", "Admin", new { lang = @Model.Language })">@Resources.TopMenu.AdminePage</a></li>       
     } 
-    @if(Model.UserRole == "gold")
+    @if (Model.UserRole == "gold")
     {
-        <li><a href="~/Home/Gold"> To GOLD page </a></li>
+        <li><a href="@Url.Action("Gold", "Home", new { lang = @Model.Language })">@Resources.TopMenu.ToGoldPage</a></li>        
     }  
     @if(!Model.UserAuthorisaed){
-        <li><a href="#"> @Model.UserName </a> </li>  
+        <li><a href="#"> @Model.UserName </a> </li>         
     } 
-    @if(Model.UserAuthorisaed){
-        <li><a href="~/Account/UserProfile"> @Model.UserName </a> </li>  
+    @if (Model.UserAuthorisaed)
+    {
+        <li><a href="@Url.Action("UserProfile", "Account", new { lang = @Model.Language })">@Model.UserName</a></li>
+        <li><a href="@Url.Action("Index", "Chat", new { lang = @Model.Language })">@Resources.TopMenu.Chat</a></li>
     }  
-            
+           
             
 </ul>
      
+<ul class="toplinks">
+    <li><a href="@Url.Action("Language", "Home", new { lang="en"})"><img src="~/Content/Image/en.png"></a></li>
+    <li><a href="@Url.Action("Language", "Home", new { lang="uk"})"><img src="~/Content/Image/uk.png"></a></li>
+</ul>

@@ -5,6 +5,8 @@
 
 @{
     Layout = "/Views/MainPage.cshtml";
+
+    Culture = UICulture = Model.Language;
 }
 <nav>
     <div class="container">
@@ -16,7 +18,7 @@
 </nav>
 <header>
     <div class="container">
-        <h2 class="docs-header"> Blog about Embedded system</h2>
+        <h2 class="docs-header"> @Resources.Home.BlogName</h2>
     </div>
 </header>
 <section>

@@ -14,6 +14,11 @@
     <link href='http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet' />
     <link rel="stylesheet" href="~/Content/style.css">
     <link rel="stylesheet" href="~/Content/prettify.css">
+
+    @if (!Request.QueryString["lang"].IsEmpty())
+    {
+        Culture = UICulture = Request.QueryString["lang"];
+    }
 </head>
 <body>   
         @RenderBody();

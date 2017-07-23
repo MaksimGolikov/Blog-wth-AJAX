@@ -19,7 +19,7 @@ namespace Blog.Controllers.Ajax
         }
 
 
-        public Message PostMain(Message message)
+        public SendMessage PostMain(Message message)
         {
             if (message.MessageText != null)
             {
@@ -33,7 +33,15 @@ namespace Blog.Controllers.Ajax
                 }
             }
 
-            return message;
+                          
+            message.PablishingData = DateTime.Now.ToLocalTime();
+
+            SendMessage mess = new SendMessage() { IdTopic = message.IdTopic,
+                                                   MessageText = message.MessageText,
+                                                   PablishingData = message.PablishingData.ToString(),
+                                                   UserName = message.UserName };
+            
+            return mess;
         }
 
 

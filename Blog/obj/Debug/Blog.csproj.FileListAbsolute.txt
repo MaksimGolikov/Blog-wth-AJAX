@@ -161,7 +161,6 @@ D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\ru\Microsoft.Owin.Secu
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\ru\Microsoft.Owin.Security.Google.resources.dll
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\ru\Microsoft.Owin.Security.Twitter.resources.dll
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\ru\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\obj\Debug\Blog.csprojResolveAssemblyReference.cache
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\obj\Debug\Blog.dll
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\obj\Debug\Blog.pdb
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\HtmlAgilityPack.dll

@@ -1,0 +1,387 @@
+﻿@using Blog.Models.Chat
+@using Blog.Models
+@using System.Drawing
+@model Tuple<List<Chat>, List<Chat>, IEnumerable<User>, ForMasterPage>
+@* Tuple <Have accecc, I create, all users list, master> *@
+@{
+    Layout = "/Views/MainPage.cshtml";
+
+    Culture = UICulture = Model.Item4.Language;
+}
+<nav>
+    <div class="container">
+        <div id="menu">
+            @Html.Partial("TopMenu",Model.Item4);            
+        </div>       
+        <a id="menu-toggle" href="#" class=" ">&#9776;</a>
+    </div>
+</nav>
+<header>
+    <div class="container" >
+        <h2 class="docs-header"> @Resources.Home.BlogName</h2>
+    </div>
+</header>
+<section>
+    
+    <div class="container" id="main-chat-menu">
+        <div class="docs-nav">
+            <form>
+                <h4> <strong>@Resources.Chat.EnterChatName</strong></h4>
+                <input type="text" id="nameCreateChat" />
+                <input type="button" value="@Resources.Chat.CreateChat" id="create-New-Chat" />
+            </form>
+
+            @if (Model.Item2.Count != 0)
+            {
+                <form name="DeleteChat">
+                    <h4><strong>@Resources.Chat.SelectForChatDel</strong></h4>
+                    <select id="ChatsID">
+                        @foreach (var item in Model.Item2)
+                        {
+                            <option value="@item.ID">@item.ChatName</option>
+                        }
+                    </select>
+                    <input type="button" value="@Resources.Chat.DeleteSelectedChat" id="delete-Chat" />
+                </form>
+            }
+            <form name="MyChats">
+                <strong>@Resources.Chat.MyChat</strong>
+                @if (Model.Item1 != null)
+                {
+                    foreach (var item in Model.Item1)
+                    {
+                        <a href="#" id="@item.ID-link">@item.ChatName</a>
+                        <script>
+                            $(function () {
+                                $("#@item.ID-link").click(function () {
+
+                                    document.getElementById("chate-ID").value = @item.ID;
+
+                                    $.ajax({
+                                        url: "/api/ajaxchat",
+                                        type: "GET",
+                                        data: {
+                                            Id: "@item.ID"
+                                        },
+                                        success: function (data) {
+                                            var res = "";
+
+                                            for (i = 0; i < data.length; i++) {
+                                                res += "<div >";
+                                                res += "<h3>" + data[i].UserName + "</h3>";
+                                                res += "<h5>" + data[i].PablishingData + "</h5>";
+                                                res += "<p>" + data[i].MessageText + "</p>";
+                                                res += "</div>";
+
+                                            }
+                                            $("#Chat_message").html(res);
+                                            $("#messageText").val('');
+                                            $("#nameChat").html(data[0].NameChat);
+
+                                            res ="";
+                                            for (i = 0; i < sendMessage[0].FreeUser.Count; i++)
+                                            {
+                                                res += "<option value='"+data[0].FreeUser[i].Id+"'>" +data[0].FreeUser[i].Login+"</option>";
+                                            }
+                                            $("#userID").html(res);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
+                    }
+                }
+            </form>
+
+            @if (Model.Item2.Count != 0)
+            {
+                <input type="button" id="main" value="@Resources.Chat.Settings" />
+            }
+        </div>
+   </div>
+
+    
+    <div class="container" id="settings-chat-menu">
+        <div class="n">
+            <h2><strong> @Resources.Chat.CurrentChat</strong></h2>
+            <form name="Add_user">
+                <h4><strong>@Resources.Chat.AddSelectUser</strong></h4>
+                <select id="userID">
+                    @foreach (var item in Model.Item3)
+                    {
+                        <option value="@item.Id">@item.Login</option>
+                    }
+                </select>
+                <input type="button" value="@Resources.Chat.AddUser" id="addNewUser" />
+            </form>
+            <input type="button" id="Add-admin" value="@Resources.Chat.AddAdmin" />
+            <input type="button" id="Add-all-users" value="@Resources.Chat.AddUsers" />
+            <form name="Del_user">
+                <h4><strong>@Resources.Chat.DelUserFromChat </strong></h4>
+                <select id="user-for-Del-ID">
+                    @foreach (var item in Model.Item3)
+                    {
+                        <option value="@item.Id">@item.Login</option>
+                    }
+                </select>
+                <input type="button" value="@Resources.Chat.DelUser" id="Delete-selected-user" />
+            </form>
+            <form name="Edit_Chat_Topic">
+                <h4><strong>@Resources.Chat.TopicCurrentChat</strong></h4>
+                <input type="text" id="topicChat" />
+                <input type="button" value="@Resources.Chat.EditTopic" id="Edit-Chat-Topic" />
+            </form>
+
+
+
+            <input type="button" id="setting" value="@Resources.Chat.Main" />
+        </div>       
+    </div>
+
+   
+        <div class="my">
+            <h4 id="nameChat"> @Resources.Chat.Chatt: </h4> <input type="button" value="@Resources.Chat.LeftChat" id="Left-Chat-Self" />
+        </div>
+        <div id="Chat_message" class="message">  </div>
+        <div class="Form">
+            <form id="SendMessageForm">
+                <input type="hidden" value=""  id="idChat" /> 
+                <p><b>@Resources.Admin.YourMessage:</b></p>
+                <p><textarea rows="5" cols="80" id="messageText"></textarea></p>
+                <input type="button" value="@Resources.Admin.Send" id="sendMessage" />
+            </form>
+        </div>          
+        
+
+    <input type="hidden" id="chate-ID" />
+</section>
+
+
+
+<script>
+    $(function () {
+        $("#sendMessage").click(function () {
+            $.ajax({
+                url: "/api/ajaxchat",
+                type: "POST",
+                data: {
+                    IdChat: $("#chate-ID").val(),
+                    MessageText: $("#messageText").val()
+                },
+                success: function (data) {
+                    var res = "";
+
+                    if (data.IdTopic == 0)
+                    {
+                        res += "<div class='docs-content'>";
+                        res += "<h3> You dont selected any chat</h3>";
+                        res += "</div>";
+                    }
+                    if (data.IdTopic != 0)
+                    {
+                        res += "<div class='docs-content'>";
+                        res += "<h3>" + data.UserName + "</h3>";
+                        res += "<h5>" + data.PablishingData + "</h5>";
+                        res += "<p>" + data.MessageText + "</p>";
+                        res += "</div>";
+                    }
+                    $("#Chat_message").append(res);
+                    $("#messageText").val('');
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#delete-Chat").click(function () {
+            var e = document.getElementById("ChatsID");
+            var strUser = e.options[e.selectedIndex].value;
+
+            $.ajax({
+                url: "/api/ajaxchat/del",
+                type: "POST",
+                data: {
+                    IdChat: strUser
+                },
+                success: function (data) {
+                       window.setTimeout('location.reload()', 100);
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#create-New-Chat").click(function () {
+
+            $.ajax({
+                url: "/api/ajaxchat/create",
+                type: "POST",
+                data: {
+                    ChatName: $("#nameCreateChat").val()
+                },
+                success: function (data) {
+                    window.setTimeout('location.reload()', 100);
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#addNewUser").click(function () {
+            var e = document.getElementById("userID");
+            var strUser = e.options[e.selectedIndex].value;
+
+            $.ajax({
+                url: "/api/ajaxchat/addUser",
+                type: "POST",
+                data: {
+                    Id: strUser,
+                    IdChat: $("#chate-ID").val()
+                },
+                success: function (data) {
+                        var res = "";
+                        res += "<div class='docs-content'>";
+                        res += "<h3>" + data.UserName + "</h3>";
+                        res += "<h5>" + data.PablishingData + "</h5>";
+                        res += "<p>" + data.MessageText + "</p>";
+                        res += "</div>"; 
+                        $("#Chat_message").append(res);
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#Add-admin").click(function () {
+            
+            $.ajax({
+                url: "/api/ajaxchat/addadmin",
+                type: "GET", 
+                data:{
+                    idChat: $("#chate-ID").val()
+                },
+                success: function (data) {
+                    var res = "";
+                    for (i = 0; i < data.length; i++) {
+                        res += "<div class='docs-content'>";
+                        res += "<h3>" + data[i].UserName + "</h3>";
+                        res += "<h5>" + data[i].PablishingData + "</h5>";
+                        res += "<p>" + data[i].MessageText + "</p>";
+                        res += "</div>";                      
+                    }
+                    $("#Chat_message").append(res);                   
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#Add-all-users").click(function () {
+            
+            $.ajax({
+                url: "/api/ajaxchat/addall",
+                type: "GET",
+                data:{
+                    idChat: $("#chate-ID").val()
+                },
+                success: function (data) {
+                    var res = "";
+                    for (i = 0; i < data.length; i++) {
+                        res += "<div class='docs-content'>";
+                        res += "<h3>" + data[i].UserName + "</h3>";
+                        res += "<h5>" + data[i].PablishingData + "</h5>";
+                        res += "<p>" + data[i].MessageText + "</p>";
+                        res += "</div>";                      
+                    }
+                    $("#Chat_message").append(res);                   
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#Delete-selected-user").click(function () {
+            var e = document.getElementById("user-for-Del-ID");
+            var strUser = e.options[e.selectedIndex].value;
+
+            $.ajax({
+                url: "/api/ajaxchat/deluser",
+                type: "POST",
+                data: {
+                    Id: strUser,
+                    IdChat: $("#chate-ID").val()
+                },
+                success: function (data) {
+                    var res = "";
+                    res += "<div class='docs-content'>";
+                    res += "<h3>" + data.UserName + "</h3>";
+                    res += "<h5>" + data.PablishingData + "</h5>";
+                    res += "<p>" + data.MessageText + "</p>";
+                    res += "</div>"; 
+                    $("#Chat_message").append(res);
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#Left-Chat-Self").click(function () {
+            
+            $.ajax({
+                url: "/api/ajaxchat/delself",
+                type: "POST",
+                data: {                   
+                    IdChat: $("#chate-ID").val()
+                },
+                success: function (data) {
+                    window.setTimeout('location.reload()', 100);
+                }
+            });
+        });
+    });
+
+    $(function () {
+
+        $("#Edit-Chat-Topic").click(function () {
+            
+            $.ajax({
+                url: "/api/ajaxchat/edit",
+                type: "POST",
+                data: {                   
+                    ID: $("#chate-ID").val(),
+                    ChatName: $("#topicChat").val()
+                },
+                success: function (data) {
+                    window.setTimeout('location.reload()', 100);
+                }
+            });
+        });
+    });
+
+    $(function(){
+        $("#setting").click(function(){
+          //  $("#main-chat-menu").show();
+            $("#settings-chat-menu").hide();
+        });
+        $("#main").click(function(){
+          //  $("#main-chat-menu").hide();
+            $("#settings-chat-menu").show();
+        });
+    });
+
+    jQuery(window).load(function () {        
+            $("#main-chat-menu").show();
+            $("#settings-chat-menu").hide();       
+        });
+
+
+
+</script>

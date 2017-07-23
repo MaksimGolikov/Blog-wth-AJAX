@@ -56,6 +56,8 @@ namespace Blog.Controllers
                 newMode.UserName = user.FirstName;
                 newMode.UserRole = user.Role;
             }
+            newMode.Language = Session["language"].ToString();
+
             return newMode;
         }
 

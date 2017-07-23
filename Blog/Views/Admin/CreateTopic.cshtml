@@ -2,6 +2,8 @@
 @model Tuple<Topic,ForMasterPage>
 @{
     Layout = "~/Views/MainPage.cshtml";
+    
+    Culture = UICulture = Model.Item2.Language;       
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
@@ -15,7 +17,7 @@
 </nav>
 <header>
     <div class="container">
-        <h2 class="docs-header"> Blog about Embedded system</h2>
+        <h2 class="docs-header"> @Resources.Home.BlogName </h2>
     </div>
 </header>
 <section>
@@ -24,13 +26,13 @@
 
 
     <div class="docs-content">
-        <h2>New topic</h2>
+        <h2>@Resources.Admin.NewTopic</h2>
 
         <form method="post" action="~/Admin/Create" id="Edit-form">
-            <p><b>Name topic</b></p>
+            <p><b>@Resources.Admin.NameTopic</b></p>
             <p><input type="text" name="NameTopic" id="NameTopic" /></p>    
                     
-            <p><b>Text topic</b></p>  
+            <p><b>@Resources.Admin.TextTopic</b></p>  
             @if (Model.Item1.ContextTopic != null)
             {
                 <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic">@Model.Item1.ContextTopic </textarea></p>
@@ -39,16 +41,16 @@
             {
                 <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic"></textarea></p>
             }   
-            <p><input type="submit" value="Create"></p>
+            <p><input type="submit" value="@Resources.Admin.Create"></p>
 
             
         </form>
 
 
         <form id="GetContext" method="post" action="~/Topic/GetContext">
-            <p><b>Url site with data</b></p>
+            <p><b>@Resources.Admin.UrlSite</b></p>
             <p><input type="text" id="urlSite" name="urlSite" /></p>
-            <p><input type="submit" value="Get context"></p>
+            <p><input type="submit" value="@Resources.Admin.GetContext"></p>
         </form>
     </div>
 </section>

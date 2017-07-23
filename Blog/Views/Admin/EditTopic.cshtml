@@ -2,6 +2,7 @@
 @model Tuple<IEnumerable<Topic>, ForMasterPage>
 @{
     Layout = "~/Views/MainPage.cshtml";
+    Culture = UICulture = Model.Item2.Language;
 }
 
 
@@ -15,7 +16,7 @@
 </nav>
 <header>
     <div class="container">
-        <h2 class="docs-header"> Blog about Embedded system</h2>
+        <h2 class="docs-header"> @Resources.Home.BlogName </h2>
     </div>
 </header>
 <section>
@@ -27,14 +28,14 @@
         <table>
             <tr>
                 <th>
-                    <h4>Select topic for edit</h4>
+                    <h4>@Resources.Admin.SelectTopic</h4>
                 </th>
             </tr>
             @foreach (var item in Model.Item1)
             {
                 <tr>
                     <th>
-                        <a  id="@item.Id-link">Edit @item.NameTopic</a>
+                        <a  id="@item.Id-link">@Resources.Admin.Edit @item.NameTopic</a>
                         <script>
                             $(function () {
                                 $("#@item.Id-link").click(function () {
@@ -60,16 +61,16 @@
         </table>
 
         <form method="post" action="~/Admin/Edit" id="Edit-form">
-            <p><b>Name topic</b></p>
+            <p><b>@Resources.Admin.NameTopic</b></p>
 
             <p><input type="text" name="NameTopic" id="NameTopic" /></p>
             <input type="hidden" name="Id" id="Id" />
 
-            <p><b>Text topic</b></p>
+            <p><b>@Resources.Admin.TextTopic</b></p>
 
             <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic"></textarea></p>
 
-            <p><input type="submit" value="Edit"></p>
+            <p><input type="submit" value="@Resources.Admin.Edit"></p>
         </form>
     </div>
 

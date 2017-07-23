@@ -18,21 +18,36 @@ namespace Blog.Controllers
 {
     public class HomeController : Controller
     {      
-        private TopicService topicService;      
-
+        private TopicService topicService;
+            
         public HomeController()
         {           
-            topicService = new TopicService();           
+            topicService = new TopicService();
+                                
         }
 
 
+
         public ActionResult Index()
-        {            
+        {
+            if (Session["language"] == null)
+            {
+                Session["language"] = "en";                
+            }
+
+
             Tuple<IEnumerable<Topic>, ForMasterPage> model = new Tuple<IEnumerable<Topic>, ForMasterPage>(topicService.GetAllTopic(),
                                                                                                           UpdateMasterPageData()); 
             return View("Index",model);
         }
 
+        public ActionResult Language(string lang)
+        {           
+            Session["language"] = lang;            
+            Tuple<IEnumerable<Topic>, ForMasterPage> model = new Tuple<IEnumerable<Topic>, ForMasterPage>(topicService.GetAllTopic(),
+                                                                                                          UpdateMasterPageData());
+            return View("Index", model);
+        }
        
 
         public ActionResult Me()
@@ -57,14 +72,16 @@ namespace Blog.Controllers
             {
                 newMode.UserAuthorisaed = false;
                 newMode.UserName = "Guest";
-                newMode.UserRole = "guest";
+                newMode.UserRole = "guest";               
             }
             if (User.Identity.IsAuthenticated && user != null)
             {
                 newMode.UserAuthorisaed = true;                
                 newMode.UserName = user.FirstName;
-                newMode.UserRole = user.Role;
+                newMode.UserRole = user.Role;               
             }
+            newMode.Language = Session["language"].ToString();
+
             return newMode;
         }
     }

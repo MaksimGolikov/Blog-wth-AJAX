@@ -37,8 +37,20 @@ namespace Blog.Repositories
             return dbConnect.Users;
         }
 
+        public IEnumerable<User> GetAdmins()
+        {
+            var retrnedValue = dbConnect.Users.Where(u => u.Role == "admin");
+            return retrnedValue;
+        }
+
+
+
         public User FindUserByLogin(string login)
         {
+            if(login == null)
+            {
+                return new User();
+            }
             var retrnedValue = dbConnect.Users.Where(u => u.Login == login).FirstOrDefault();
             return retrnedValue;
         }

@@ -7,6 +7,7 @@
 
 @{
     Layout = "/Views/MainPage.cshtml";
+    Culture = UICulture = Model.Item2.Language;
 }
 <nav>
     <div class="container">
@@ -18,7 +19,7 @@
 </nav>
 <header>
     <div class="container">
-        <h2 class="docs-header"> Blog about Embedded system</h2>
+        <h2 class="docs-header"> @Resources.Home.BlogName </h2>
     </div>
 </header>
 <section>
@@ -26,47 +27,47 @@
     
     <div class="docs-content">
         <form method="post" action="~/Authentication/Registration" id="Registration-form">
-            <h2>Registration</h2>
+            <h2>@Resources.Authentication.Registration</h2>
             @Html.AntiForgeryToken()
             <table border="0">
                 <tr>
                     <td>
-                        <h4 class="toplinks">Filling fild for create account</h4>
+                        <h4 class="toplinks">@Resources.Authentication.FillingFild</h4>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h4> Name </h4>
+                        <h4> @Resources.Authentication.Name </h4>
                         <input name="FirstName" id="FirstName" type="text" />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h4> Second name </h4>
+                        <h4> @Resources.Authentication.SecName </h4>
                         <input name="SecondName" id="SecondName" type="text" />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h4> Login </h4>
+                        <h4> @Resources.Authentication.Login </h4>
                         <input name="Login" id="Login" type="text" />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h4> Password </h4>
+                        <h4> @Resources.Authentication.Password </h4>
                         <input name="Password" id="pass" type="password" />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h4> Confirm password </h4>
+                        <h4> @Resources.Authentication.ConfPassword </h4>
                         <input name="ConfirmPassword" id="confirmPass" type="password" />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="submit" value="Create account" />
+                        <input type="submit" value="@Resources.Authentication.CreateAccount" />
                     </td>
                 </tr>
             </table>
