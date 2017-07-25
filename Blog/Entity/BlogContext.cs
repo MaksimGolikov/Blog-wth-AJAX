@@ -1,7 +1,7 @@
 ﻿using Blog.Entity;
 using System.Data.Entity;
 using Blog.Models;
-using Blog.Models.Chat;
+using Blog.Models.Chatt;
 
 namespace Blog.Entity
 {

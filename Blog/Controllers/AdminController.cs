@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Blog.Service;
 using Blog.Models;
+using Blog.Models.ViewModels;
+
 
 namespace Blog.Controllers
 {
@@ -20,7 +22,7 @@ namespace Blog.Controllers
 
 
         public ActionResult AdminIndex()
-        {
+        {           
             return View("~/Views/Admin/Index.cshtml", UpdateMasterPageData());
         }
 
@@ -28,7 +30,10 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            Tuple<Topic, ForMasterPage> model = new Tuple<Topic, ForMasterPage>(new Topic(), UpdateMasterPageData());
+            CreateTopicViewModel model = new CreateTopicViewModel() { Topic= new Topic(),
+                                                                      MasterPage = UpdateMasterPageData()
+                                                                    };
+           
             return View("~/Views/Admin/CreateTopic.cshtml", model);
         }
         [HttpPost]
@@ -46,9 +51,10 @@ namespace Blog.Controllers
 
         public ActionResult Edit()
         {
-            Tuple<IEnumerable<Topic>, ForMasterPage> model =
-                      new Tuple<IEnumerable<Topic>, ForMasterPage>(adminService.GetAllTopic(),
-                                                                          UpdateMasterPageData());
+            EditTopicViewModel model = new EditTopicViewModel() { Topics = adminService.GetAllTopic(),
+                                                                  MasterPage = UpdateMasterPageData()
+                                                                };
+            
             return View("~/Views/Admin/EditTopic.cshtml", model);
         }
 
@@ -70,9 +76,10 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Delete()
         {
-            Tuple<IEnumerable<Topic>, ForMasterPage> model =
-                new Tuple<IEnumerable<Topic>, ForMasterPage>(adminService.GetAllTopic(),
-                                                              UpdateMasterPageData());
+            DeleteViewModel model = new DeleteViewModel() { Topics = adminService.GetAllTopic(),
+                                                            MasterPage = UpdateMasterPageData()
+                                                           };
+
             return View("~/Views/Admin/DeleteTopic.cshtml", model);
         }
 
@@ -85,9 +92,10 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult ChangeRole()
         {
-            Tuple<IEnumerable<User>, ForMasterPage> model =
-                                   new Tuple<IEnumerable<User>, ForMasterPage>(adminService.GetUsers(),
-                                                                                       UpdateMasterPageData());
+            ChangeUserRoleViewModel model = new ChangeUserRoleViewModel() { Users = adminService.GetUsers() ,
+                                                                            MasterPage = UpdateMasterPageData()
+                                                                            };
+
             return View("~/Views/Admin/ChangeUserRole.cshtml", model);
         }
 
@@ -95,9 +103,9 @@ namespace Blog.Controllers
         {
             adminService.ChangeUserRole(user.Role, user.Id);
 
-            Tuple<IEnumerable<User>, ForMasterPage> model =
-                                   new Tuple<IEnumerable<User>, ForMasterPage>(adminService.GetUsers(),
-                                                                                       UpdateMasterPageData());
+            ChangeUserRoleViewModel model = new ChangeUserRoleViewModel() { Users = adminService.GetUsers(),
+                                                                            MasterPage = UpdateMasterPageData()
+                                                                          };
             return View("~/Views/Admin/ChangeUserRole.cshtml", model);
         }
 

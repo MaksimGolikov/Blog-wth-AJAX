@@ -2,7 +2,7 @@
 using System;
 using System.Data.Entity;
 using Blog.Models;
-using Blog.Models.Chat;
+using Blog.Models.Chatt;
 using System.Collections.Generic;
 
 namespace Blog.Entity

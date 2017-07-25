@@ -7,6 +7,7 @@ using Blog.Models.AuthModel;
 using Blog.Models;
 using System.Web.Security;
 using Blog.Service;
+using Blog.Models.ViewModels;
 
 namespace Blog.Controllers
 {
@@ -24,7 +25,9 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            Tuple<Login, ForMasterPage> model = new Tuple<Login, ForMasterPage>(new Login(), UpdateMasterPageData());
+            LoginViewModel model = new LoginViewModel() { Login = new Login(),
+                                                          MasterPage = UpdateMasterPageData()
+                                                        };            
             return View("LogIN", model);
         }
 
@@ -37,14 +40,18 @@ namespace Blog.Controllers
             {
                 if (!userService.ExistUser(model.LoginName))
                 {
-                    Tuple<Login, ForMasterPage> Newmodel = new Tuple<Login, ForMasterPage>(new Login(), UpdateMasterPageData());
+                    LoginViewModel Newmodel = new LoginViewModel() { Login = new Login(),
+                                                                     MasterPage = UpdateMasterPageData()
+                                                                   };   
                     return View("LogIN", Newmodel);
                 }
                 FormsAuthentication.SetAuthCookie(model.LoginName, true);
                 return RedirectToAction("Index","Home");
 
             }
-            Tuple<Login, ForMasterPage> Newmod = new Tuple<Login, ForMasterPage>(new Login(), UpdateMasterPageData());
+            LoginViewModel Newmod = new LoginViewModel() { Login = new Login(),
+                                                           MasterPage = UpdateMasterPageData()
+                                                          };
             return View("LogIN", Newmod);
         }
 
@@ -52,7 +59,9 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            Tuple<Registred, ForMasterPage> model = new Tuple<Registred, ForMasterPage>(new Registred(), UpdateMasterPageData());
+            AuthenticationViewModel model = new AuthenticationViewModel()  { Registred = new Registred(),
+                                                                             MasterPage = UpdateMasterPageData()
+                                                                           };           
             return View("Autification", model);
         }
 
@@ -64,7 +73,9 @@ namespace Blog.Controllers
             {
                 if (model.Password != model.ConfirmPassword)
                 {
-                    Tuple<Registred, ForMasterPage> Newmodel = new Tuple<Registred, ForMasterPage>(new Registred(), UpdateMasterPageData());
+                    AuthenticationViewModel Newmodel = new AuthenticationViewModel()  {  Registred = new Registred(),
+                                                                                         MasterPage = UpdateMasterPageData()
+                                                                                       }; 
                     return View("Autification", Newmodel);
                 }
 
@@ -78,7 +89,9 @@ namespace Blog.Controllers
                     }
                 }
             }
-            Tuple<Registred, ForMasterPage> Newmodels = new Tuple<Registred, ForMasterPage>(new Registred(), UpdateMasterPageData());
+            AuthenticationViewModel Newmodels = new AuthenticationViewModel() { Registred = new Registred(),
+                                                                                MasterPage = UpdateMasterPageData()
+                                                                              };           
             return View("Autification", Newmodels);
         }
 

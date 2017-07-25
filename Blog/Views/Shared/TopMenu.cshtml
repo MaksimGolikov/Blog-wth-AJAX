@@ -5,16 +5,17 @@
 
 
 
+
 <ul class="toplinks">
+       
     
-   
     <li><a href="@Url.Action("Index", "Home", new { lang = @Model.Language })">@Resources.TopMenu.Blog</a></li>
-    <li><a href="@Url.Action("Me", "Home", new { lang = @Model.Language })">@Resources.TopMenu.AboutMe</a></li>
+    <li><a href="@Url.Action("Me", "Home", new { lang = @Model.Language })">@Resources.TopMenu.AboutMe</a></li>  
 
     @if (!Model.UserAuthorisaed)
     {
         <li><a href="@Url.Action("Register", "Authentication", new { lang = @Model.Language})">@Resources.TopMenu.Registration</a></li>
-        <li><a href="@Url.Action("Login", "Authentication", new { lang = @Model.Language })">@Resources.TopMenu.Login</a></li>      
+        <li><a href="@Url.Action("Login", "Authentication", new { lang = @Model.Language })">@Resources.TopMenu.Login</a></li>        
     }
     @if (Model.UserAuthorisaed)
     {
@@ -23,25 +24,26 @@
     }
     @if (Model.UserRole == "admin")
     {
-        <li><a href="@Url.Action("AdminIndex", "Admin", new { lang = @Model.Language })">@Resources.TopMenu.AdminePage</a></li>       
+        <li><a href="@Url.Action("AdminIndex", "Admin", new { lang = @Model.Language })">@Resources.TopMenu.AdminePage</a></li>         
     } 
     @if (Model.UserRole == "gold")
     {
-        <li><a href="@Url.Action("Gold", "Home", new { lang = @Model.Language })">@Resources.TopMenu.ToGoldPage</a></li>        
+        <li><a href="@Url.Action("Gold", "Home", new { lang = @Model.Language })">@Resources.TopMenu.ToGoldPage</a></li>
+       
     }  
     @if(!Model.UserAuthorisaed){
-        <li><a href="#"> @Model.UserName </a> </li>         
+        <li><a href="№"> @Model.UserName </a> </li>         
     } 
     @if (Model.UserAuthorisaed)
     {
         <li><a href="@Url.Action("UserProfile", "Account", new { lang = @Model.Language })">@Model.UserName</a></li>
-        <li><a href="@Url.Action("Index", "Chat", new { lang = @Model.Language })">@Resources.TopMenu.Chat</a></li>
+        <li><a href="@Url.Action("Index", "Chat", new { lang = @Model.Language })">@Resources.TopMenu.Chat</a></li>       
     }  
-           
-            
+          
+          
 </ul>
      
 <ul class="toplinks">
-    <li><a href="@Url.Action("Language", "Home", new { lang="en"})"><img src="~/Content/Image/en.png"></a></li>
-    <li><a href="@Url.Action("Language", "Home", new { lang="uk"})"><img src="~/Content/Image/uk.png"></a></li>
+    <li><a href="@Url.Action("Language", "Home", new { lang = "en" })"><img src="~/Content/Image/en.png"></a></li>
+    <li><a href="@Url.Action("Language", "Home", new { lang = "uk"})"><img src="~/Content/Image/uk.png"></a></li>
 </ul>

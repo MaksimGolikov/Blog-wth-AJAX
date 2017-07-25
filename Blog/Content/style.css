@@ -558,5 +558,14 @@ select:focus {
              margin-left: 30%;
              text-align: left;
          }
+
+
+
+    .table {
+        border:ridge;
+        border-radius:15px;
+        border-color:black;
+    }
+    
 }
 

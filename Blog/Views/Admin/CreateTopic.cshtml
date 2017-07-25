@@ -1,16 +1,16 @@
-﻿@using Blog.Models;
-@model Tuple<Topic,ForMasterPage>
+﻿@using Blog.Models.ViewModels;
+@model CreateTopicViewModel
 @{
     Layout = "~/Views/MainPage.cshtml";
     
-    Culture = UICulture = Model.Item2.Language;       
+    Culture = UICulture = Model.MasterPage.Language;       
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
 <nav>
     <div class="container">
         <div id="menu">
-            @Html.Partial("TopMenu", Model.Item2);
+            @Html.Partial("TopMenu", Model.MasterPage);
         </div>
         <a id="menu-toggle" href="#" class=" ">&#9776;</a>
     </div>
@@ -33,11 +33,11 @@
             <p><input type="text" name="NameTopic" id="NameTopic" /></p>    
                     
             <p><b>@Resources.Admin.TextTopic</b></p>  
-            @if (Model.Item1.ContextTopic != null)
+            @if (Model.Topic.ContextTopic != null)
             {
-                <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic">@Model.Item1.ContextTopic </textarea></p>
+                <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic">@Model.Topic.ContextTopic </textarea></p>
             } 
-            @if (Model.Item1.ContextTopic == null)
+            @if (Model.Topic.ContextTopic == null)
             {
                 <p><textarea rows="15" cols="100" name="ContextTopic" id="ContextTopic"></textarea></p>
             }   

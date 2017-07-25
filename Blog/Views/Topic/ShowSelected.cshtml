@@ -1,16 +1,16 @@
-﻿@using Blog.Models;
-@model Tuple<Topic, IEnumerable<Message>,ForMasterPage>
+﻿@using Blog.Models.ViewModels;
+@model ShowSelectedViewModel
 @{
     Layout = "~/Views/MainPage.cshtml";
 
-    Culture = UICulture = Model.Item3.Language;
+    Culture = UICulture = Model.MasterPage.Language;
     
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <nav>
     <div class="container">
         <div id="menu">
-            @Html.Partial("TopMenu", Model.Item3);
+            @Html.Partial("TopMenu", Model.MasterPage);
         </div>
         <a id="menu-toggle" href="#" class=" ">&#9776;</a>
     </div>
@@ -22,17 +22,17 @@
 </header>
 <section>
     <div class="docs-content">
-        <h3> @Model.Item1.NameTopic </h3>
+        <h3> @Model.Topic.NameTopic </h3>
         <p>
-            @Model.Item1.PablishingData<br />
+            @Model.Topic.PablishingData<br />
         </p>
-        <p class=".pTag">@Model.Item1.ContextTopic</p>
+        <p class=".pTag">@Model.Topic.ContextTopic</p>
     </div>
 
    
         <h3>@Resources.Admin.Comment </h3>
     <div id="Comments" name="comments">
-        @foreach (var item in Model.Item2)
+        @foreach (var item in Model.Comments)
         {
             <div class="docs-content">
                 <h3> @item.UserName </h3>
@@ -50,38 +50,12 @@
         <div class="docs-content">
             <form id="loginForm">
 
-                <input type="hidden" value="@Model.Item1.Id" id="idTopic" />
+                <input type="hidden" value="@Model.Topic.Id" id="idTopic" />
                 <p><b>@Resources.Admin.YourMessage:</b></p>
                 <p><textarea rows="5" cols="100" id="messageText"></textarea></p>
-                <input type="button" value="@Resources.Admin.Send" id="sendMessage" />
+                <input type="button" value="@Resources.Admin.Send" id="sendComment" />
 
             </form>
         </div>
-
-        <script>
-            $(function () {
-                $("#sendMessage").click(function () {
-                    $.ajax({
-                        url: "/api/ajaxmessage",
-                        type: "POST",
-                        data: {
-                            IdTopic: $("#idTopic").val(),
-                            MessageText: $("#messageText").val()
-                        },
-                        success: function (data) {
-                                var res = "";
-                                res += "<div class='docs-content'>";
-                                res += "<h3>" + data.UserName + "</h3>";
-                                res += "<h5>" + data.PablishingData + "</h5>";
-                                res += "<p>"+data.MessageText+"</p>";
-                                res += "</div>";
-                                $("#Comments").append(res);
-                                $("#messageText").val('');
-                        }
-                    });
-                });
-            });
-
-        </script>
-
+    
 </section>

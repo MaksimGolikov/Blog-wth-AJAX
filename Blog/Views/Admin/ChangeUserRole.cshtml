@@ -1,15 +1,22 @@
-﻿@using Blog.Models;
-@model Tuple<IEnumerable<User>,ForMasterPage>
+﻿@using Blog.Models.ViewModels;
+@model ChangeUserRoleViewModel
 @{
     Layout = "~/Views/MainPage.cshtml";
-    Culture = UICulture = Model.Item2.Language;
+    Culture = UICulture = Model.MasterPage.Language;
 }
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<script>
+    $("#Change-Role-User").kendoGrid({
+        sortable: true
+    });
+</script>
+
 
 <nav>
     <div class="container">
         <div id="menu">
-            @Html.Partial("TopMenu", Model.Item2);
+            @Html.Partial("TopMenu", Model.MasterPage);
         </div>
         <a id="menu-toggle" href="#" class=" ">&#9776;</a>
     </div>
@@ -24,7 +31,85 @@
 
 
     <div class="docs-content">
-        @foreach(var item in Model.Item1)
+
+     
+        <table id="Change-Role-User" class="table">
+            <thead>
+                <tr>
+                    <th data-field="Name" class="th">
+                        <h4>@Resources.Admin.User </h4>
+                    </th>
+                    <th class="th">
+                        <h4>@Resources.Admin.CurrentRole </h4>
+                    </th>
+                    <th class="th">
+                        <h4>@Resources.Admin.SetUserRole</h4>
+                    </th>
+                    <th class="th">
+                        <h4>@Resources.Admin.SetGoldRole</h4>
+                    </th>
+                    <th class="th">
+                        <h4>@Resources.Admin.SetAdminRole</h4>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Users)
+                {
+                    <tr>
+                        <th class="th">
+                            <h4>@item.FirstName  @item.SecondName</h4>
+                        </th>
+                        <th class="th">
+                            @if (@item.Role == "admin")
+                            {
+                                <p style="color:brown"><b>@item.Role</b></p>
+                            }
+                            @if (@item.Role == "gold")
+                            {
+                                <p style="color:orangered"><b>@item.Role</b></p>
+                            }
+                            @if (@item.Role == "user")
+                            {
+                                <p style="color:black"><b>@item.Role</b></p>
+                            }
+                            @if (@item.Role == "guest")
+                            {
+                                <p style="color:black"><b>@item.Role</b></p>
+                            }
+                            
+                        </th>
+                        <th class="th">
+                            <form action="~/Admin/ChangeUserRole">
+                                <input type="hidden" value="@item.Id" name="Id" />
+                                <input type="hidden" value="user" name="Role" />
+                                <input type="submit" value="@Resources.Admin.SetUserRole" class="selectRow k-button">
+                            </form> 
+                        </th>
+                        <th class="th">
+                            <form action="~/Admin/ChangeUserRole">
+                                <input type="hidden" value="@item.Id" name="Id" />
+                                <input type="hidden" value="gold" name="Role" />
+                                <input type="submit" value="@Resources.Admin.SetGoldRole" class="selectRow k-button">
+                            </form>  
+                        </th>
+                        <th class="th">
+                            <form action="~/Admin/ChangeUserRole">
+                                <input type="hidden" value="@item.Id" name="Id" />
+                                <input type="hidden" value="admin" name="Role" />
+                                <input type="submit" value="@Resources.Admin.SetAdminRole" class="selectRow k-button">
+                            </form>  
+                        </th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+
+
+
+        @*@foreach(var item in Model.Users)
         {
             <h4>@item.FirstName  @item.SecondName</h4>
             <p>@Resources.Admin.CurrentRole:   @item.Role</p>
@@ -53,7 +138,7 @@
                     </td>
                 </tr>
             </table>
-        }
+        }*@
     </div>
 
 

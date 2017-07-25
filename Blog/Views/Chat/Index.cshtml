@@ -1,17 +1,22 @@
-﻿@using Blog.Models.Chat
+﻿@using Blog.Models.Chatt
 @using Blog.Models
 @using System.Drawing
-@model Tuple<List<Chat>, List<Chat>, IEnumerable<User>, ForMasterPage>
-@* Tuple <Have accecc, I create, all users list, master> *@
+@using Blog.Models.ViewModels
+
+@model ChatViewModel
+
 @{
     Layout = "/Views/MainPage.cshtml";
 
-    Culture = UICulture = Model.Item4.Language;
+    Culture = UICulture = Model.MasterPage.Language;
 }
+
+
+
 <nav>
     <div class="container">
         <div id="menu">
-            @Html.Partial("TopMenu",Model.Item4);            
+            @Html.Partial("TopMenu",Model.MasterPage);            
         </div>       
         <a id="menu-toggle" href="#" class=" ">&#9776;</a>
     </div>
@@ -31,12 +36,12 @@
                 <input type="button" value="@Resources.Chat.CreateChat" id="create-New-Chat" />
             </form>
 
-            @if (Model.Item2.Count != 0)
+            @if (Model.ICreated.Count != 0)
             {
                 <form name="DeleteChat">
                     <h4><strong>@Resources.Chat.SelectForChatDel</strong></h4>
                     <select id="ChatsID">
-                        @foreach (var item in Model.Item2)
+                        @foreach (var item in Model.ICreated)
                         {
                             <option value="@item.ID">@item.ChatName</option>
                         }
@@ -46,9 +51,9 @@
             }
             <form name="MyChats">
                 <strong>@Resources.Chat.MyChat</strong>
-                @if (Model.Item1 != null)
+                @if (Model.MyChats != null)
                 {
-                    foreach (var item in Model.Item1)
+                    foreach (var item in Model.MyChats)
                     {
                         <a href="#" id="@item.ID-link">@item.ChatName</a>
                         <script>
@@ -94,7 +99,7 @@
                 }
             </form>
 
-            @if (Model.Item2.Count != 0)
+            @if (Model.ICreated.Count != 0)
             {
                 <input type="button" id="main" value="@Resources.Chat.Settings" />
             }
@@ -108,7 +113,7 @@
             <form name="Add_user">
                 <h4><strong>@Resources.Chat.AddSelectUser</strong></h4>
                 <select id="userID">
-                    @foreach (var item in Model.Item3)
+                    @foreach (var item in Model.AllUsers)
                     {
                         <option value="@item.Id">@item.Login</option>
                     }
@@ -120,7 +125,7 @@
             <form name="Del_user">
                 <h4><strong>@Resources.Chat.DelUserFromChat </strong></h4>
                 <select id="user-for-Del-ID">
-                    @foreach (var item in Model.Item3)
+                    @foreach (var item in Model.AllUsers)
                     {
                         <option value="@item.Id">@item.Login</option>
                     }
@@ -160,228 +165,5 @@
 
 
 <script>
-    $(function () {
-        $("#sendMessage").click(function () {
-            $.ajax({
-                url: "/api/ajaxchat",
-                type: "POST",
-                data: {
-                    IdChat: $("#chate-ID").val(),
-                    MessageText: $("#messageText").val()
-                },
-                success: function (data) {
-                    var res = "";
-
-                    if (data.IdTopic == 0)
-                    {
-                        res += "<div class='docs-content'>";
-                        res += "<h3> You dont selected any chat</h3>";
-                        res += "</div>";
-                    }
-                    if (data.IdTopic != 0)
-                    {
-                        res += "<div class='docs-content'>";
-                        res += "<h3>" + data.UserName + "</h3>";
-                        res += "<h5>" + data.PablishingData + "</h5>";
-                        res += "<p>" + data.MessageText + "</p>";
-                        res += "</div>";
-                    }
-                    $("#Chat_message").append(res);
-                    $("#messageText").val('');
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#delete-Chat").click(function () {
-            var e = document.getElementById("ChatsID");
-            var strUser = e.options[e.selectedIndex].value;
-
-            $.ajax({
-                url: "/api/ajaxchat/del",
-                type: "POST",
-                data: {
-                    IdChat: strUser
-                },
-                success: function (data) {
-                       window.setTimeout('location.reload()', 100);
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#create-New-Chat").click(function () {
-
-            $.ajax({
-                url: "/api/ajaxchat/create",
-                type: "POST",
-                data: {
-                    ChatName: $("#nameCreateChat").val()
-                },
-                success: function (data) {
-                    window.setTimeout('location.reload()', 100);
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#addNewUser").click(function () {
-            var e = document.getElementById("userID");
-            var strUser = e.options[e.selectedIndex].value;
-
-            $.ajax({
-                url: "/api/ajaxchat/addUser",
-                type: "POST",
-                data: {
-                    Id: strUser,
-                    IdChat: $("#chate-ID").val()
-                },
-                success: function (data) {
-                        var res = "";
-                        res += "<div class='docs-content'>";
-                        res += "<h3>" + data.UserName + "</h3>";
-                        res += "<h5>" + data.PablishingData + "</h5>";
-                        res += "<p>" + data.MessageText + "</p>";
-                        res += "</div>"; 
-                        $("#Chat_message").append(res);
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#Add-admin").click(function () {
-            
-            $.ajax({
-                url: "/api/ajaxchat/addadmin",
-                type: "GET", 
-                data:{
-                    idChat: $("#chate-ID").val()
-                },
-                success: function (data) {
-                    var res = "";
-                    for (i = 0; i < data.length; i++) {
-                        res += "<div class='docs-content'>";
-                        res += "<h3>" + data[i].UserName + "</h3>";
-                        res += "<h5>" + data[i].PablishingData + "</h5>";
-                        res += "<p>" + data[i].MessageText + "</p>";
-                        res += "</div>";                      
-                    }
-                    $("#Chat_message").append(res);                   
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#Add-all-users").click(function () {
-            
-            $.ajax({
-                url: "/api/ajaxchat/addall",
-                type: "GET",
-                data:{
-                    idChat: $("#chate-ID").val()
-                },
-                success: function (data) {
-                    var res = "";
-                    for (i = 0; i < data.length; i++) {
-                        res += "<div class='docs-content'>";
-                        res += "<h3>" + data[i].UserName + "</h3>";
-                        res += "<h5>" + data[i].PablishingData + "</h5>";
-                        res += "<p>" + data[i].MessageText + "</p>";
-                        res += "</div>";                      
-                    }
-                    $("#Chat_message").append(res);                   
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#Delete-selected-user").click(function () {
-            var e = document.getElementById("user-for-Del-ID");
-            var strUser = e.options[e.selectedIndex].value;
-
-            $.ajax({
-                url: "/api/ajaxchat/deluser",
-                type: "POST",
-                data: {
-                    Id: strUser,
-                    IdChat: $("#chate-ID").val()
-                },
-                success: function (data) {
-                    var res = "";
-                    res += "<div class='docs-content'>";
-                    res += "<h3>" + data.UserName + "</h3>";
-                    res += "<h5>" + data.PablishingData + "</h5>";
-                    res += "<p>" + data.MessageText + "</p>";
-                    res += "</div>"; 
-                    $("#Chat_message").append(res);
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#Left-Chat-Self").click(function () {
-            
-            $.ajax({
-                url: "/api/ajaxchat/delself",
-                type: "POST",
-                data: {                   
-                    IdChat: $("#chate-ID").val()
-                },
-                success: function (data) {
-                    window.setTimeout('location.reload()', 100);
-                }
-            });
-        });
-    });
-
-    $(function () {
-
-        $("#Edit-Chat-Topic").click(function () {
-            
-            $.ajax({
-                url: "/api/ajaxchat/edit",
-                type: "POST",
-                data: {                   
-                    ID: $("#chate-ID").val(),
-                    ChatName: $("#topicChat").val()
-                },
-                success: function (data) {
-                    window.setTimeout('location.reload()', 100);
-                }
-            });
-        });
-    });
-
-    $(function(){
-        $("#setting").click(function(){
-          //  $("#main-chat-menu").show();
-            $("#settings-chat-menu").hide();
-        });
-        $("#main").click(function(){
-          //  $("#main-chat-menu").hide();
-            $("#settings-chat-menu").show();
-        });
-    });
-
-    jQuery(window).load(function () {        
-            $("#main-chat-menu").show();
-            $("#settings-chat-menu").hide();       
-        });
-
-
-
+   
 </script>

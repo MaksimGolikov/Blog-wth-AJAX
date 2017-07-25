@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Blog.Service;
 using Blog.Models;
+using Blog.Models.ViewModels;
 
 namespace Blog.Controllers
 {
@@ -21,11 +22,10 @@ namespace Blog.Controllers
 
         public ActionResult ShowSelected(int id)
         {
-
-            Tuple<Topic, IEnumerable<Message>, ForMasterPage> model =
-                        new Tuple<Topic, IEnumerable<Message>, ForMasterPage>(topicService.GetTopic(id),
-                                                                              topicService.GetMessageByTopicId(id),
-                                                                              UpdateMasterPageData());
+            ShowSelectedViewModel model = new ShowSelectedViewModel() { Comments = topicService.GetMessageByTopicId(id),
+                                                                        MasterPage = UpdateMasterPageData(),
+                                                                        Topic = topicService.GetTopic(id)
+                                                                    };           
             return View("ShowSelected", model);
         }
 
@@ -33,11 +33,15 @@ namespace Blog.Controllers
         {
             if (urlSite == null)
             {
-                Tuple<Topic, ForMasterPage> model = new Tuple<Topic, ForMasterPage>(new Topic(), UpdateMasterPageData());
+                CreateTopicViewModel model = new CreateTopicViewModel() { Topic= new Topic(),
+                                                                          MasterPage = UpdateMasterPageData()
+                                                                        };                
                 return View("~/Views/Admin/CreateTopic.cshtml", model);
             }
-            Tuple<Topic, ForMasterPage> modelDone = new Tuple<Topic, ForMasterPage>(new Topic() { ContextTopic = topicService.GetContextFromOtherSite(urlSite) },
-                                                                                    UpdateMasterPageData());
+            CreateTopicViewModel modelDone = new CreateTopicViewModel(){ Topic = new Topic() { ContextTopic = topicService.GetContextFromOtherSite(urlSite) },
+                                                                         MasterPage = UpdateMasterPageData()
+                                                                       };      
+
             return View("~/Views/Admin/CreateTopic.cshtml", modelDone);
 
         }

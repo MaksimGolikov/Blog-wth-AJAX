@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Blog.Models.ViewModels;
 
 namespace Blog.Controllers
 {
@@ -21,7 +22,9 @@ namespace Blog.Controllers
 
         public ActionResult UserProfile()
         {
-            Tuple<User, ForMasterPage> model = new Tuple<User, ForMasterPage>(userService.GetUser(User.Identity.Name), UpdateMasterPageData());
+            ProfileViewModel model = new ProfileViewModel() { User = userService.GetUser(User.Identity.Name),
+                                                              MasterPage = UpdateMasterPageData()
+                                                             };            
             return View("Profile", model);
         }
         public ActionResult ChangeProfile(User us)

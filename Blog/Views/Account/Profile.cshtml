@@ -1,16 +1,16 @@
 ﻿@using System.Drawing;
-@using Blog.Models;
+@using Blog.Models.ViewModels;
 
-@model  Tuple<User,ForMasterPage>
+@model  ProfileViewModel
 
 @{
     Layout = "/Views/MainPage.cshtml";
-    Culture = UICulture = Model.Item2.Language;
+    Culture = UICulture = Model.MasterPage.Language;
 }
 <nav>
     <div class="container">
         <div id="menu">
-            @Html.Partial("TopMenu", Model.Item2);
+            @Html.Partial("TopMenu", Model.MasterPage);
         </div>
         <a id="menu-toggle" href="#" class=" ">&#9776;</a>
     </div>
@@ -34,40 +34,40 @@
                 <tr>
                     <td>
                         <h4> @Resources.Authentication.Name </h4>
-                        <input name="FirstName" type="text" value="@Model.Item1.FirstName" id="first_name"/>
+                        <input name="FirstName" type="text" value="@Model.User.FirstName" id="first_name"/>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h4> @Resources.Authentication.SecName </h4>
-                        <input name="SecondName" type="text" value="@Model.Item1.SecondName" id="second_name" />
+                        <input name="SecondName" type="text" value="@Model.User.SecondName" id="second_name" />
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h4> @Resources.Authentication.Login </h4>
-                        <input name="Login" id="login" type="text" value="@Model.Item1.Login" />
+                        <input name="Login" id="login" type="text" value="@Model.User.Login" />
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h4> @Resources.Authentication.Password </h4>
-                        <input name="Password" type="password" value="@Model.Item1.Password" id="pass" />
+                        <input name="Password" type="password" value="@Model.User.Password" id="pass" />
                     </td>
                     <td>
                         <h4> @Resources.Authentication.ConfPassword </h4>
-                        <input name="ConfirmPassword" type="password" value="@Model.Item1.Password" />
+                        <input name="ConfirmPassword" type="password" value="@Model.User.Password" />
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <h4> @Resources.Authentication.You @Model.Item1.Role</h4>
+                        <h4> @Resources.Authentication.You @Model.User.Role</h4>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <input type="hidden" value="@Model.Item1.Role" name="Role" id="role"/>
-                        <input type="hidden" value="@Model.Item1.Id" name="Id" id="id"/>
+                        <input type="hidden" value="@Model.User.Role" name="Role" id="role"/>
+                        <input type="hidden" value="@Model.User.Id" name="Id" id="id"/>
                         <input type="button" value="@Resources.Admin.Edit" id="send"/>
                     </td>
                 </tr>

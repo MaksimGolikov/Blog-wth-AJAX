@@ -5,11 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
+using System.Web.SessionState;
+using System.Web.Mvc;
+
 
 namespace Blog.Controllers.Ajax
 {
-    public class AjaxUserController : ApiController
+    public class AjaxUserController : ApiController, IRequiresSessionState
     {
         private UserService userService;
 
@@ -40,9 +44,6 @@ namespace Blog.Controllers.Ajax
 
             return returned.ToString();
         }
-
-
-
 
     }
  }

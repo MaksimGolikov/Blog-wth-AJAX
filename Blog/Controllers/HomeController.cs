@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Net;
 using HtmlAgilityPack;
-
+using Blog.Models.ViewModels;
 
 namespace Blog.Controllers
 {
@@ -35,19 +35,20 @@ namespace Blog.Controllers
                 Session["language"] = "en";                
             }
 
-
-            Tuple<IEnumerable<Topic>, ForMasterPage> model = new Tuple<IEnumerable<Topic>, ForMasterPage>(topicService.GetAllTopic(),
-                                                                                                          UpdateMasterPageData()); 
+            FirstPageViewModel model = new FirstPageViewModel() { Topics = topicService.GetAllTopic(),
+                                                                  MasterPage = UpdateMasterPageData()
+                                                                };
+            
             return View("Index",model);
         }
 
         public ActionResult Language(string lang)
-        {           
-            Session["language"] = lang;            
-            Tuple<IEnumerable<Topic>, ForMasterPage> model = new Tuple<IEnumerable<Topic>, ForMasterPage>(topicService.GetAllTopic(),
-                                                                                                          UpdateMasterPageData());
-            return View("Index", model);
-        }
+        {
+            var r = Request.Url.ToString();
+            Session["language"] = lang;
+
+            return Redirect(Request.UrlReferrer.ToString());           
+         }
        
 
         public ActionResult Me()
@@ -56,9 +57,10 @@ namespace Blog.Controllers
         }
         public ActionResult Gold()
         {
-            Tuple<string, ForMasterPage> model =
-                new Tuple<string, ForMasterPage>(User.Identity.Name,
-                                                 UpdateMasterPageData());
+            GoldViewModel model = new GoldViewModel() { UserName = User.Identity.Name,
+                                                        MasterPage = UpdateMasterPageData()
+                                                      };
+           
             return View("Gold",model);
         }                
 
@@ -79,7 +81,7 @@ namespace Blog.Controllers
                 newMode.UserAuthorisaed = true;                
                 newMode.UserName = user.FirstName;
                 newMode.UserRole = user.Role;               
-            }
+            }           
             newMode.Language = Session["language"].ToString();
 
             return newMode;

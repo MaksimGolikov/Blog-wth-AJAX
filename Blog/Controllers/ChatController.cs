@@ -5,8 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Blog.Service;
 using Blog.Models;
-using Blog.Models.Chat;
-
+using Blog.Models.Chatt;
+using Blog.Models.ViewModels;
 
 namespace Blog.Controllers
 {
@@ -30,11 +30,11 @@ namespace Blog.Controllers
             var myChat = chatService.GetAllUsedChats(user.Id) as List<Chat>;
 
 
-            Tuple<List<Chat>, List<Chat>, IEnumerable<User>, ForMasterPage> model =
-                            new Tuple<List<Chat>, List<Chat>, IEnumerable<User>, ForMasterPage>(myChat,
-                                                                                                createdChat,
-                                                                                                chatService.GetAllUsers(),
-                                                                                                UpdateMasterPageData());
+            ChatViewModel model = new ChatViewModel() { MyChats = myChat,
+                                                        ICreated = createdChat,
+                                                        AllUsers = chatService.GetAllUsers(),
+                                                        MasterPage= UpdateMasterPageData()
+                                                       };           
             return View("Index",model);
         }
         

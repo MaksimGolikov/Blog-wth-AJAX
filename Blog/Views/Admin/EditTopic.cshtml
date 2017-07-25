@@ -1,15 +1,15 @@
-﻿@using Blog.Models;
-@model Tuple<IEnumerable<Topic>, ForMasterPage>
+﻿@using Blog.Models.ViewModels;
+@model EditTopicViewModel
 @{
     Layout = "~/Views/MainPage.cshtml";
-    Culture = UICulture = Model.Item2.Language;
+    Culture = UICulture = Model.MasterPage.Language;
 }
 
 
 <nav>
     <div class="container">
         <div id="menu">
-            @Html.Partial("TopMenu", Model.Item2);
+            @Html.Partial("TopMenu", Model.MasterPage);
         </div>
         <a id="menu-toggle" href="#" class=" ">&#9776;</a>
     </div>
@@ -31,7 +31,7 @@
                     <h4>@Resources.Admin.SelectTopic</h4>
                 </th>
             </tr>
-            @foreach (var item in Model.Item1)
+            @foreach (var item in Model.Topics)
             {
                 <tr>
                     <th>

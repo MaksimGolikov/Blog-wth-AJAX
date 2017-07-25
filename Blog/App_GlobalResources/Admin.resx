@@ -177,6 +177,9 @@
   <data name="UrlSite" xml:space="preserve">
     <value>Url site with data</value>
   </data>
+  <data name="User" xml:space="preserve">
+    <value>User name</value>
+  </data>
   <data name="YourMessage" xml:space="preserve">
     <value>Enter your message</value>
   </data>

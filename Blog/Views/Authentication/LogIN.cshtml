@@ -1,17 +1,18 @@
 ﻿@using System.Drawing;
 @using Blog.Models;
 @using Blog.Models.AuthModel;
+@using Blog.Models.ViewModels;
 
-@model  Tuple<Login,ForMasterPage>
+@model  LoginViewModel
 
 @{
     Layout = "/Views/MainPage.cshtml";
-    Culture = UICulture = Model.Item2.Language;
+    Culture = UICulture = Model.MasterPage.Language;
 }
 <nav>
     <div class="container">
         <div id="menu">
-            @Html.Partial("TopMenu", Model.Item2);
+            @Html.Partial("TopMenu", Model.MasterPage);
         </div>
         <a id="menu-toggle" href="#" class=" ">&#9776;</a>
     </div>

@@ -1,19 +1,11 @@
-﻿<div id="main">
-    <div id="picture">
-        <h4> @Resources.Admin.AdministratorPart</h4>
-    </div>
-    <div id="button">
-        <a href="~/Admin/Create">
-            <h4> @Resources.Admin.AddTopic</h4>
-        </a>
-        <a href="~/Admin/Edit">
-            <h4> @Resources.Admin.ChangeTopic </h4>
-        </a>
-        <a href="~/Admin/Delete">
-            <h4> @Resources.Admin.DeleteTopic </h4>
-        </a>
-        <a href="~/Admin/ChangeRole">
-            <h4> @Resources.Admin.ChangeUserRole </h4>
-        </a>
-    </div>
+﻿
+<div class="container">
+    <ul class="docs-nav" id="menu-left">
+        <li><strong>@Resources.Admin.AdministratorPart</strong></li>
+        <li><a href="~/Admin/Create"> <h4> @Resources.Admin.AddTopic</h4></a></li>
+        <li><a href="~/Admin/Edit">   <h4> @Resources.Admin.ChangeTopic </h4></a></li>
+        <li><a href="~/Admin/Delete"> <h4> @Resources.Admin.DeleteTopic </h4></a></li>
+        <li><a href="~/Admin/ChangeRole">  <h4> @Resources.Admin.ChangeUserRole </h4></a></li>
+        <li class="separator"></li>
+    </ul>
 </div>

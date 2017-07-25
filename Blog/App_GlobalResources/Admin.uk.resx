@@ -177,6 +177,9 @@
   <data name="UrlSite" xml:space="preserve">
     <value>Адреса сайту з необхідною інформацією</value>
   </data>
+  <data name="User" xml:space="preserve">
+    <value>Користувач</value>
+  </data>
   <data name="YourMessage" xml:space="preserve">
     <value>Текст вашого повідомлення </value>
   </data>
