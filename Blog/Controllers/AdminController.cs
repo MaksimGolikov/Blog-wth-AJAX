@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Blog.Service;
 using Blog.Models;
-using Blog.Models.ViewModels;
+using Blog.ViewModels;
 
 
 namespace Blog.Controllers
@@ -59,13 +59,13 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Topic t)
+        public ActionResult Edit(Topic topic)
         {
-            if (t.NameTopic == null || t.ContextTopic == null)
+            if (topic.NameTopic == null || topic.ContextTopic == null)
             {
                 return RedirectToAction("Edit");
             }
-            adminService.ChangeTopic(t);
+            adminService.ChangeTopic(topic);
 
             return RedirectToAction("AdminIndex");
 

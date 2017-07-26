@@ -38,7 +38,7 @@ namespace Blog.Controllers.Ajax
 
             SendMessage mess = new SendMessage() { IdTopic = message.IdTopic,
                                                    MessageText = message.MessageText,
-                                                   PablishingData = message.PablishingData.ToString(),
+                                                   PablishingData = message.PablishingData.ToString("dd-MM-yyyy"),
                                                    UserName = message.UserName };
             
             return mess;

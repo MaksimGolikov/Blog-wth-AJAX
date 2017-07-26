@@ -7,7 +7,7 @@ using Blog.Models.AuthModel;
 using Blog.Models;
 using System.Web.Security;
 using Blog.Service;
-using Blog.Models.ViewModels;
+using Blog.ViewModels;
 
 namespace Blog.Controllers
 {

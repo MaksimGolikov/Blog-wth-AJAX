@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Blog.Models.ViewModels;
+using Blog.ViewModels;
 
 namespace Blog.Controllers
 {
@@ -27,14 +27,14 @@ namespace Blog.Controllers
                                                              };            
             return View("Profile", model);
         }
-        public ActionResult ChangeProfile(User us)
+        public ActionResult ChangeProfile(User user)
         {
             FormsAuthentication.SignOut();
-            userService.ChangeUserInformation(us);
+            userService.ChangeUserInformation(user);
 
-            if (userService.ExistUser(us.Login))
+            if (userService.ExistUser(user.Login))
             {
-                FormsAuthentication.SetAuthCookie(us.Login, true);
+                FormsAuthentication.SetAuthCookie(user.Login, true);
                 return RedirectToAction("Index","Home");
             }
 

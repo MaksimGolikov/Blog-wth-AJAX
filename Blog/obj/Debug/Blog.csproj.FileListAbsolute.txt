@@ -166,6 +166,6 @@ D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\obj\Debug\Blog.pdb
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\HtmlAgilityPack.dll
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\HtmlAgilityPack.pdb
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\HtmlAgilityPack.xml
-D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\obj\Debug\Blog.csprojResolveAssemblyReference.cache
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\Dynamic.dll
 D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\bin\KendoGridBinder.dll
+D:\OneDrive\Programming\C# Program\Blog-wth-AJAX\Blog\obj\Debug\Blog.csprojResolveAssemblyReference.cache

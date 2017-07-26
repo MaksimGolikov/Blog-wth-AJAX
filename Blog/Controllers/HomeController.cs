@@ -12,7 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Net;
 using HtmlAgilityPack;
-using Blog.Models.ViewModels;
+using Blog.ViewModels;
 
 namespace Blog.Controllers
 {

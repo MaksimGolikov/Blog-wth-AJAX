@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Blog.Service;
 using Blog.Models;
 using Blog.Models.Chatt;
-using Blog.Models.ViewModels;
+using Blog.ViewModels;
 
 namespace Blog.Controllers
 {

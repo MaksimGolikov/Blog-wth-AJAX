@@ -177,7 +177,298 @@ namespace Blog.Service
             return ansver;
         }
 
+        #region Messages
 
+        public SendMessage MessageForAddUser(ChatMessage newUser, string nameWhoAdd)
+        {
+            var sendMessage = new SendMessage();
+
+            if (newUser != null)
+            {
+                var user = GetUser(newUser.Id);
+                var ShouldAddUser = !ExistUserInChat(newUser.Id, newUser.IdChat);
+
+                if (!ShouldAddUser)
+                {
+                    string messText = user.Login + " alredy exist at current chat";
+
+                    sendMessage.IdTopic = newUser.IdChat;
+                    sendMessage.MessageText = messText;
+                    sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                    sendMessage.UserName = nameWhoAdd;
+                }
+                if (ShouldAddUser)
+                {
+                    AddUserToChat(newUser.Id, newUser.IdChat);
+
+                    string messText = user.Login + " has been addet to current chat";
+
+                    sendMessage.IdTopic = newUser.IdChat;
+                    sendMessage.MessageText = messText;
+                    sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                    sendMessage.UserName = nameWhoAdd;
+
+
+                    var mess = new ChatMessage();
+                    mess.IdChat = sendMessage.IdTopic;
+                    mess.MessageText = sendMessage.MessageText;
+                    mess.PablishingData = DateTime.UtcNow;
+                    mess.UserName = sendMessage.UserName;
+                    SendMessageToChat(mess, nameWhoAdd);
+                }
+
+            }
+            return sendMessage;
+        }
+        public List<SendMessage> MessageForAddAdminToChat(string nameWhoAdd, int idChat)
+        {
+            var returnedList = new List<SendMessage>();
+
+            var admins = GetAdmins();
+            foreach (var item in admins)
+            {
+                var ShouldAddUser = !ExistUserInChat(item.Id, idChat);
+
+                if (ShouldAddUser)
+                {
+                    AddUserToChat(item.Id, idChat);
+
+                    string messText = item.Login + " has been addet to current chat";
+
+                    var sendMessage = new SendMessage();
+                    sendMessage.IdTopic = idChat;
+                    sendMessage.MessageText = messText;
+                    sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                    sendMessage.UserName = nameWhoAdd;
+                    returnedList.Add(sendMessage);
+
+
+                    var mess = new ChatMessage();
+                    mess.IdChat = sendMessage.IdTopic;
+                    mess.MessageText = sendMessage.MessageText;
+                    mess.PablishingData = DateTime.UtcNow;
+                    mess.UserName = sendMessage.UserName;
+                    SendMessageToChat(mess, nameWhoAdd);
+                }
+            }
+
+            return returnedList;
+        }
+        public List<SendMessage> MessageForAddAllUserToChat(string nameWhoAdd, int idChat)
+        {
+            var returnedList = new List<SendMessage>();
+
+            var users = GetAllUsers();
+            foreach (var item in users)
+            {
+                var ShouldAddUser = !ExistUserInChat(item.Id, idChat);
+
+                if (ShouldAddUser)
+                {
+                    AddUserToChat(item.Id, idChat);
+
+                    string messText = item.Login + " has been addet to current chat";
+
+                    var sendMessage = new SendMessage();
+                    sendMessage.IdTopic = idChat;
+                    sendMessage.MessageText = messText;
+                    sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                    sendMessage.UserName = nameWhoAdd;
+                    returnedList.Add(sendMessage);
+
+
+                    var mess = new ChatMessage();
+                    mess.IdChat = sendMessage.IdTopic;
+                    mess.MessageText = sendMessage.MessageText;
+                    mess.PablishingData = DateTime.UtcNow;
+                    mess.UserName = sendMessage.UserName;
+                    SendMessageToChat(mess, nameWhoAdd);
+                }
+            }
+
+            return returnedList;
+        }
+
+
+
+        public SendMessage MessageForDeleteUserSelf(ChatMessage newUser, string nameWhoAdd)
+        {
+            var sendMessage = new SendMessage();
+
+            if (newUser != null)
+            {
+                var user = GetUser(nameWhoAdd);
+
+
+                DeleteUserFromChat(user.Id, newUser.IdChat);
+
+
+                string messText = user.Login + " left chat";
+
+                sendMessage.IdTopic = newUser.IdChat;
+                sendMessage.MessageText = messText;
+                sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                sendMessage.UserName = nameWhoAdd;
+
+                var mess = new ChatMessage();
+                mess.IdChat = sendMessage.IdTopic;
+                mess.MessageText = sendMessage.MessageText;
+                mess.PablishingData = DateTime.UtcNow;
+                mess.UserName = sendMessage.UserName;
+                SendMessageToChat(mess, nameWhoAdd);
+            }
+            return sendMessage;
+        }
+        public SendMessage MessageForDeleteUser(ChatMessage newUser, string nameWhoAdd)
+        {
+            var sendMessage = new SendMessage();
+
+            if (newUser != null)
+            {
+                DeleteUserFromChat(newUser.Id, newUser.IdChat);
+                var user = GetUser(newUser.Id);
+
+                string messText = user.Login + " left chat";
+
+                sendMessage.IdTopic = newUser.IdChat;
+                sendMessage.MessageText = messText;
+                sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                sendMessage.UserName = nameWhoAdd;
+
+                var mess = new ChatMessage();
+                mess.IdChat = sendMessage.IdTopic;
+                mess.MessageText = sendMessage.MessageText;
+                mess.PablishingData = DateTime.UtcNow;
+                mess.UserName = sendMessage.UserName;
+                SendMessageToChat(mess, nameWhoAdd);
+            }
+            return sendMessage;
+        }
+
+
+
+        public SendMessage MessageForEditChatTopic(Chat newChat, string nameWhoAdd)
+        {
+            var sendMessage = new SendMessage();
+
+            if (newChat != null && newChat.ChatName != "")
+            {
+                var existName = GetChat(newChat.ID).ChatName;
+                EditChat(newChat);
+                
+
+                string messText = "Topic of chat has been changed from " + existName + " to " + newChat.ChatName;
+
+                sendMessage.IdTopic = newChat.ID;
+                sendMessage.MessageText = messText;
+                sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                sendMessage.UserName = nameWhoAdd;
+
+                var mess = new ChatMessage();
+                mess.IdChat = sendMessage.IdTopic;
+                mess.MessageText = sendMessage.MessageText;
+                mess.PablishingData = DateTime.UtcNow;
+                mess.UserName = sendMessage.UserName;
+                SendMessageToChat(mess, nameWhoAdd);
+            }
+            return sendMessage;
+        }
+
+        public SendMessage MessageForCreateChat(Chat newChat, string nameWhoAdd)
+        {
+            var sendMessage = new SendMessage();
+
+            if (newChat != null)
+            {
+                var idCreatedChat = CreateChat(newChat, nameWhoAdd);
+
+                string messText = "Chat " + newChat.ChatName + " has been created";
+
+                sendMessage.IdTopic = idCreatedChat;
+                sendMessage.MessageText = messText;
+                sendMessage.PablishingData = DateTime.Now.ToLocalTime().ToString("dd-MM-yyyy");
+                sendMessage.UserName = nameWhoAdd;
+
+                var mess = new ChatMessage();
+                mess.IdChat = sendMessage.IdTopic;
+                mess.MessageText = sendMessage.MessageText;
+                mess.PablishingData = DateTime.UtcNow;
+                mess.UserName = sendMessage.UserName;
+                SendMessageToChat(mess, nameWhoAdd);
+            }
+            return sendMessage;
+        }
+
+        public SendMessage MessageSendedMessage(ChatMessage message, string nameWhoAdd)
+        {
+            if (message.MessageText != null)
+            {
+                SendMessageToChat(message, nameWhoAdd);
+            }
+
+            message.PablishingData = DateTime.Now.ToLocalTime();
+
+            SendMessage mess = new SendMessage()
+            {
+                IdTopic = message.IdChat,
+                MessageText = message.MessageText,
+                PablishingData = message.PablishingData.ToString("dd-MM-yyyy"),
+                UserName = message.UserName
+            };
+
+            return mess;
+        }
+
+        public List<SendMessage> GetChatmessages(int Id)
+        {
+            var users = GetAllUsers();
+            var freeUsers = new List<User>();
+            foreach (var item in users)
+            {
+                var ShouldAddUser = !ExistUserInChat(item.Id, Id);
+                if (ShouldAddUser)
+                {
+                    freeUsers.Add(item);
+                }
+            }
+
+            var usersAtChat = GetChat(Id);
+            var usedUsers = usersAtChat.Users.Split(',');
+            var busyUsers = new List<User>();
+            foreach (var item in usedUsers)
+            {
+                busyUsers.Add(GetUser(item));
+            }
+
+
+            var message = GetMessageByChatcId(Id);
+            var sendMessage = new List<SendMessage>();
+            foreach (var item in message)
+            {
+                item.PablishingData = item.PablishingData.ToLocalTime();
+
+
+
+                SendMessage mess = new SendMessage()
+                {
+                    IdTopic = item.IdChat,
+                    MessageText = item.MessageText,
+                    PablishingData = item.PablishingData.ToString("dd-MM-yyyy"),
+                    UserName = item.UserName,
+                    NameChat = GetChat(item.IdChat).ChatName
+                };
+                sendMessage.Add(mess);
+            }
+
+
+
+            sendMessage[0].FreeUser = freeUsers;
+            sendMessage[0].UserAtChat = busyUsers;
+
+            return sendMessage;
+        }
+
+        #endregion
 
     }
 }

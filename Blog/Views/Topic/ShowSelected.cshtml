@@ -1,4 +1,4 @@
-﻿@using Blog.Models.ViewModels;
+﻿@using Blog.ViewModels;
 @model ShowSelectedViewModel
 @{
     Layout = "~/Views/MainPage.cshtml";
@@ -59,3 +59,32 @@
         </div>
     
 </section>
+
+
+<script>
+    $(function () {
+        $("#sendComment").click(function () {
+            $.ajax({
+                url: "/api/ajaxmessage",
+                type: "POST",
+                data: {
+                    IdTopic: $("#idTopic").val(),
+                    MessageText: $("#messageText").val()
+                },
+                success: function (data) {
+
+                    if (data.MessageText != null) {
+                        var res = "";
+                        res += "<div class='docs-content'>";
+                        res += "<h3>" + data.UserName + "</h3>";
+                        res += "<h5>" + data.PablishingData + "</h5>";
+                        res += "<p>" + data.MessageText + "</p>";
+                        res += "</div>";
+                        $("#Comments").append(res);
+                        $("#messageText").val('');
+                    }
+                }
+            });
+        });
+    });
+</script>
